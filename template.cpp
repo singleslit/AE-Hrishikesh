@@ -1,4 +1,7 @@
 #include <bits/stdc++.h>
+const int MOD=1e9+7;
+const int MAX_N = 1e9;
+#define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define ll long long
 #define vll vector<ll>
 #define pll pair<ll,ll>
@@ -42,16 +45,12 @@
 #define JOIN_STRINGS(vec) std::accumulate((vec).begin(), (vec).end(), std::string(""))
 #define vin(v) for(int i=0; i<(int)v.size(); i++) cin>>v[i];//only for 0th based indexing inputs
 #define vout(v) for(int i=0; i<(int)v.size(); i++) cout<<v[i]<<' '//only for 0th based indexing outputs
-#define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define INF 1e9+100
 #define debug(x) cerr << #x << " = " << x << endl;
-const int MOD=1e9+7;
-const int MAX_N = 101;//for Tarjans
 #define add(a,b) a=(a+(b))%MOD
+#define INF 1e9+100
 using namespace std;
 
 
 int main() {
     trainingForICPC();
-    cout<<"HII"<<endl;
 }
