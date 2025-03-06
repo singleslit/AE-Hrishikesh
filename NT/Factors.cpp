@@ -1,4 +1,4 @@
-vector<int> prime_sieve(int n) {
+vii prime_sieve(int n) {
     if (n <= 2) return {};  // No primes below 2
     if (n == 2) return {2}; // Special case for smallest prime
 
@@ -25,7 +25,7 @@ vector<int> prime_sieve(int n) {
     }
 
     // Step 3: Collect prime numbers
-    vector<int> primes = {2, 3, 5};
+    vii primes = {2, 3, 5};
     for (int i = 0; i < size; i++) {
         for (int mask = sieve[i]; mask > 0; mask &= (mask - 1)) {
             int idx = __builtin_ctz(mask);
