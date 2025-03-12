@@ -2,7 +2,7 @@
 const int MOD=1e9+7;
 const int MAX_N = 1e9;
 #define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define ll long long
+#define ll long long 
 #define vll vector<ll>
 #define pll pair<ll,ll>
 #define pii pair<int,int>
@@ -22,7 +22,7 @@ const int MAX_N = 1e9;
 #define setll set<ll>
 #define setpll set<pll>
 #define setpii set<pii>
-#define usetpll unordered_set<pll>
+#define usetpll unordered_set<pll> 
 #define usetpii unordered_set<pii>
 #define forl(i,a,b) for(ll i=a;i<b;i++)
 #define fori(i,a,b) for(int i=a;i<b;i++)
@@ -34,23 +34,40 @@ const int MAX_N = 1e9;
 #define lexi lexicographical_compare
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
+//sum macros
 #define suml(v) accumulate(all(v),0LL)
 #define sumi(v) accumulate(all(v),0)
+//binarySearch macros
 #define lb(v,target) lower_bound(all(v), target)
 #define rlb(v,target) lower_bound(rall(v), target)
 #define lbset(s,target) s.lower_bound(target)
 #define ub(v,target) upper_bound(all(v), target)
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
 #define ubset(s,target) s.upper_bound(target)
-#define JOIN_STRINGS(vec) std::accumulate((vec).begin(), (vec).end(), std::string(""))
+//vector macros
+#define VTS(v) string(all(v))
+#define VOC(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
+#define vjoin(v1, v2) (v1.insert(v1.end(), v2.begin(), v2.end()))
+#define join(v) std::accumulate((vec).begin(), (vec).end(), std::string(""))
+#define join23(v) std::ranges::fold_left((vec), std::string{}, std::plus<>())
 #define vin(v) for(int i=0; i<(int)v.size(); i++) cin>>v[i];//only for 0th based indexing inputs
 #define vout(v) for(int i=0; i<(int)v.size(); i++) cout<<v[i]<<' '//only for 0th based indexing outputs
+#define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
+#define rotater(v, k) rotate((v).rbegin(), (v).rbegin() + ((k) % (v).size()), (v).rend())
+#define dsort(v) sort(all(v), greater<>())
+#define sortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second < b.second; })
+#define dsortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second > b.second; })
 #define debug(x) cerr << #x << " = " << x << endl;
+//math macros
+#define COD(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
 #define add(a,b) a=(a+(b))%MOD
 #define INF 1e9+100
+//lazy macros
+#define yes cout<<"Yes"
+#define no cout<<"No"
 using namespace std;
 
 
 int main() {
-    trainingForICPC();
+  trainingForICPC();
 }
