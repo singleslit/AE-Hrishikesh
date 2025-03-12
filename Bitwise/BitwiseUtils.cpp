@@ -1,7 +1,7 @@
-# -*- mode: snippet -*-
-# name:BitwiseUtils
-# key:<bitwise
-# --
+// # -*- mode: snippet -*-
+// # name:BitwiseUtils
+// # key:<bitwise
+// # --
 template <typename T>
 constexpr bool isPowerOfTwo(T n) {
     return std::has_single_bit(n);
