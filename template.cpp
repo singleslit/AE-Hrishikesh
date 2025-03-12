@@ -60,6 +60,7 @@ const int MAX_N = 1e9;
 #define dsortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second > b.second; })
 #define debug(x) cerr << #x << " = " << x << endl;
 //math macros
+#define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
 #define COD(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
 #define add(a,b) a=(a+(b))%MOD
 #define INF 1e9+100
@@ -72,6 +73,5 @@ using namespace std;
 
 int main() {
   trainingForICPC();
-  
 }
  
