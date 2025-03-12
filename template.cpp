@@ -2,7 +2,7 @@
 const int MOD=1e9+7;
 const int MAX_N = 1e9;
 #define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define ll long long 
+#define ll long long
 #define vll vector<ll>
 #define pll pair<ll,ll>
 #define pii pair<int,int>
@@ -22,7 +22,7 @@ const int MAX_N = 1e9;
 #define setll set<ll>
 #define setpll set<pll>
 #define setpii set<pii>
-#define usetpll unordered_set<pll> 
+#define usetpll unordered_set<pll>
 #define usetpii unordered_set<pii>
 #define forl(i,a,b) for(ll i=a;i<b;i++)
 #define fori(i,a,b) for(int i=a;i<b;i++)
@@ -45,6 +45,7 @@ const int MAX_N = 1e9;
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
 #define ubset(s,target) s.upper_bound(target)
 //vector macros
+#define vsert(idx, value) emplace(v.begin() + (idx), value)//for inserting an elem at an index in the vector
 #define VTS(v) string(all(v))
 #define VOC(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
 #define vjoin(v1, v2) (v1.insert(v1.end(), v2.begin(), v2.end()))
@@ -63,6 +64,7 @@ const int MAX_N = 1e9;
 #define add(a,b) a=(a+(b))%MOD
 #define INF 1e9+100
 //lazy macros
+#define cleantable(m,v) memset(m,v,sizeof(m));
 #define yes cout<<"Yes"
 #define no cout<<"No"
 using namespace std;
@@ -70,4 +72,6 @@ using namespace std;
 
 int main() {
   trainingForICPC();
+  
 }
+ 
