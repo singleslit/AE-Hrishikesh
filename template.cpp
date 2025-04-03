@@ -73,27 +73,6 @@ using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
 
 #define INF 1e9 
-
-
-int MSS(const vii &a){
-    int ans=0; int maxi=0;
-    fori(i,0,sz(a)){
-        if (ans + a[i] >= 0) ans += a[i], maxi = max(maxi, ans);
-        else ans = 0;
-    }
-    return maxi;
-}
-
-int MPS(vii A) {
-  int n = A.size(), res = A[0], l = 0, r = 0;
-  fori(i,0,n) {
-    l =  (l ? l : 1) * A[i];
-    r =  (r ? r : 1) * A[n - 1 - i];
-    res = max(res, max(l, r));
-  }
-  return res;
-}
-
  
 int main() {
   trainingForICPC();
