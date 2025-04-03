@@ -71,6 +71,12 @@ using setpll = set<pll>;
 using setpii = set<pii>;
 using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
+using stkint = stack<int>;
+using stkll = stack<ll>;
+using stkpii = stack<pii>;
+using stkpll = stack<pll>;
+
+#define INF 1e9 
 
 #define INF 1e9 
  
