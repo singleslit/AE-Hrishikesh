@@ -221,7 +221,28 @@ int MSS(const vii &a) {
 }
 // ----------------------------------------------------------------------------------------
 //Maximum 2D Sum Subarray
+ll max_2d_sum_subarray(vvll grid) {
+    ll rows = sz(grid);
+    ll cols = grid.empty() ? 0 : sz(grid[0]);
+    ll maxsum = -INF;
 
+    fori(lp, 0, cols) {
+        vll linear(rows, 0);
+        fori(rp, lp, cols) {
+            fi(rows) linear[i] += grid[i][rp];
+
+            ll currmax = linear[0], bestmax = linear[0];
+            fori(i, 1, rows) {
+                currmax = max(linear[i], currmax + linear[i]);
+                bestmax = max(bestmax, currmax);
+            }
+
+            maxsum = max(maxsum, bestmax);
+        }
+    }
+
+    return maxsum;
+}
 // Modular power using binary exponentiation
 ll modpow(ll base, ll exp, ll mod) {
     ll res = 1;
