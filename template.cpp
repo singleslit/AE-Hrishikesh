@@ -210,6 +210,18 @@ inline vll NSE(const vll &a) { return mono_stack(a, 1, [](ll a, ll b) { return b
 inline vll PGE(const vll &a) { return mono_stack(a, 0, [](ll a, ll b) { return a > b; }, 0); }
 inline vll NGE(const vll &a) { return mono_stack(a, 1, [](ll a, ll b) { return b <= a; }, sz(a) + 1); }
 // ----------------------------------------------------------------------------------------
+//Maximum Sum Subarray
+int MSS(const vii &a) {
+    int ans = 0, maxi = 0;
+    fi(sz(a)) {
+        if (ans + a[i] >= 0) ans += a[i], maxi = max(maxi, ans);
+        else ans = 0;
+    }
+    return maxi;
+}
+// ----------------------------------------------------------------------------------------
+//Maximum 2D Sum Subarray
+
 // Modular power using binary exponentiation
 ll modpow(ll base, ll exp, ll mod) {
     ll res = 1;
