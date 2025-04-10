@@ -92,7 +92,6 @@ using stkpll = stack<pll>;
 #define INF LLONG_MAX
 #define NINF LLONG_MIN
 //Bitwise template
-//Bitwise template
 template <typename T> constexpr bool ispow2(T n) { return n && !(n & (n - 1)); }
 
 template <typename T> constexpr int pcnt(T n) {
@@ -161,6 +160,16 @@ template <typename T> constexpr bool evenparity(T n) { return pcnt(n) % 2 == 0; 
 
 template <typename T> constexpr void swpx(T &a, T &b) {
     if (&a != &b) a ^= b, b ^= a, a ^= b;
+}
+//Longest Increasing Subsequence
+int LIS(vii& a) {
+    vii lis;
+    felm(a) {
+        auto it = lb(lis, elem);
+        if (it == lis.end()) lis.pb(elem);
+        else *it = elem;
+    }
+    return sz(lis);
 }
 
 // Modular power using binary exponentiation
