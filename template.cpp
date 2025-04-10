@@ -24,15 +24,18 @@ const int MAX_N = 1e9;
 #define print2(x, y) cout << (x) << ' ' << (y) << '\n'
 #define printv(v) for (auto &e : v) cout << e << ' '; cout << '\n'
 #define printvv(vv) for (auto &v : vv) printv(v)
+// ----------------------------------------------------------------------------------------
 //sum macros
 #define suml(v) accumulate(all(v),0LL)
 #define sumi(v) accumulate(all(v),0)
 //binarySearch macros
+// ----------------------------------------------------------------------------------------
 #define lb(v,target) lower_bound(all(v), target)
 #define rlb(v,target) lower_bound(rall(v), target)
 #define lbset(s,target) s.lower_bound(target)
 #define ub(v,target) upper_bound(all(v), target) 
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
+// ----------------------------------------------------------------------------------------
 #define ubset(s,target) s.upper_bound(target)
 //vector macros
 #define slice(vec,start,end) vii((vec).begin() + (start), (vec).begin() + (end))
@@ -49,6 +52,7 @@ const int MAX_N = 1e9;
 #define dsort(v) sort(all(v), greater<>())
 #define sortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second < b.second; })
 #define dsortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second > b.second; })
+// ----------------------------------------------------------------------------------------
 //math macros
 #define isEven(n) n%2==0
 #define isOdd(n) n%2==1
@@ -56,12 +60,16 @@ const int MAX_N = 1e9;
 #define COD(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
 #define add(a,b) a=(a+(b))%MOD
 #define ceil2(a, b) (((a) + (b) - 1) / (b))
+// ----------------------------------------------------------------------------------------
 //string macros
 #define str(x) to_string(x)
+// ----------------------------------------------------------------------------------------
 //array macros
 #define cleantable(m,v) memset(m,v,sizeof(m));
+// ----------------------------------------------------------------------------------------
 //debug macros
 #define debug(x) cerr << #x << " = " << x << endl;
+// ----------------------------------------------------------------------------------------
 using namespace std;
 using ll = long long;
 using vll = vector<ll>;
@@ -91,6 +99,7 @@ using stkpii = stack<pii>;
 using stkpll = stack<pll>;
 #define INF LLONG_MAX
 #define NINF LLONG_MIN
+// ----------------------------------------------------------------------------------------
 //Bitwise template
 template <typename T> constexpr bool ispow2(T n) { return n && !(n & (n - 1)); }
 
@@ -161,6 +170,7 @@ template <typename T> constexpr bool evenparity(T n) { return pcnt(n) % 2 == 0; 
 template <typename T> constexpr void swpx(T &a, T &b) {
     if (&a != &b) a ^= b, b ^= a, a ^= b;
 }
+// ----------------------------------------------------------------------------------------
 //Longest Increasing Subsequence
 int LIS(vii& a) {
     vii lis;
@@ -171,7 +181,35 @@ int LIS(vii& a) {
     }
     return sz(lis);
 }
+// Monotonic Stack Template
+// ----------------------------------------------------------------------------------------
+template<typename Compare>
+vll mono_stack(const vll &a, bool rev, Compare cmp, ll none_val) {
+    int n = sz(a);
+    vll res(n, 0);
+    stkint stk;
 
+    if (!rev) {
+        fi(n) {
+            while (!stk.empty() && cmp(a[i], a[stk.top()])) stk.pop();
+            res[i] = stk.empty() ? none_val : stk.top() + 1;
+            stk.push(i);
+        }
+    } else {
+        rfori(i, n - 1, -1) {
+            while (!stk.empty() && cmp(a[i], a[stk.top()])) stk.pop();
+            res[i] = stk.empty() ? none_val : stk.top() + 1;
+            stk.push(i);
+        }
+    }
+    return res;
+}
+
+inline vll PSE(const vll &a) { return mono_stack(a, 0, [](ll a, ll b) { return a < b; }, 0); }
+inline vll NSE(const vll &a) { return mono_stack(a, 1, [](ll a, ll b) { return b >= a; }, sz(a) + 1); }
+inline vll PGE(const vll &a) { return mono_stack(a, 0, [](ll a, ll b) { return a > b; }, 0); }
+inline vll NGE(const vll &a) { return mono_stack(a, 1, [](ll a, ll b) { return b <= a; }, sz(a) + 1); }
+// ----------------------------------------------------------------------------------------
 // Modular power using binary exponentiation
 ll modpow(ll base, ll exp, ll mod) {
     ll res = 1;
@@ -183,6 +221,7 @@ ll modpow(ll base, ll exp, ll mod) {
     }
     return res;
 }
+// ----------------------------------------------------------------------------------------
 //To check if a number is prime or not using Miller Rabin
 bool isPrime(ll n) {
     if (n < 2) return false;
@@ -217,6 +256,7 @@ bool isPrime(ll n) {
 
     return true;
 }
+// ----------------------------------------------------------------------------------------
 //template to print the prime factors and its exponents as pairs
 vpll primeFactors(ll n) {
     vpll factors;
@@ -233,6 +273,7 @@ vpll primeFactors(ll n) {
     if (n > 1) factors.pb({n, 1});
     return factors;
 }
+// ----------------------------------------------------------------------------------------
 //number to vector of digits template
 template <typename T>
 vii vod(T num) {
@@ -241,6 +282,7 @@ vii vod(T num) {
     felm(s) d.pb(elem - '0'); // felm(x) and pb macros
     return d;
 }
+// ----------------------------------------------------------------------------------------
 // bool to check if a number is a perfect square or not
 bool isPerfSquare(int num) {
     if (num < 0) return false;
@@ -256,6 +298,7 @@ bool isPerfSquare(int num) {
 
     return x * x == num;
 }
+// ----------------------------------------------------------------------------------------
 //number to Binary String template
 template<typename T>
 string numToBinary(T n) {
@@ -268,8 +311,10 @@ string numToBinary(T n) {
     reverse(all(bin));
     return bin;
 }
+// ----------------------------------------------------------------------------------------
+//Temporary functions created for the question:
 
-
+// ----------------------------------------------------------------------------------------
 int main() {
   trainingForICPC();
  
