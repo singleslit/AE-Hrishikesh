@@ -14,9 +14,12 @@ const int MAX_N = 1e9;
 #define lexi lexicographical_compare
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-#define scan(x) cin >> x
-#define scan2(x, y) cin >> x >> y
-#define scan3(x, y, z) cin >> x >> y >> z
+#define scan(x) int x;cin >> x
+#define scan2(x, y) int x,y;cin >> x >> y
+#define scan3(x, y, z) int x,y,z;cin >> x >> y >> z
+#define lscan(x) ll x;cin >> x
+#define lscan2(x, y) ll x,y;cin >> x >> y
+#define lscan3(x, y, z) ll x,y,z;cin >> x >> y >> z
 #define scanv(v) for (auto &e : v) cin >> e
 #define scanvv(vv) for (auto &v : vv) scanv(v)
 #define print(x) cout << (x) << '\n'
@@ -25,6 +28,8 @@ const int MAX_N = 1e9;
 #define printv(v) for (auto &e : v) cout << e << ' '; cout << '\n'
 #define printvv(vv) for (auto &v : vv) printv(v)
 #define Test int t; cin >> t; while(t--)
+#define YES cout<<"Yes"<<endl;
+#define NO cout<<"No"<<endl;
 // ----------------------------------------------------------------------------------------
 //sum macros
 #define suml(v) accumulate(all(v),0LL)
@@ -40,12 +45,12 @@ const int MAX_N = 1e9;
 #define ubset(s,target) s.upper_bound(target)
 //vector macros
 #define slice(vec,start,end) vii((vec).begin() + (start), (vec).begin() + (end))
-#define vsert(v,idx, value) emplace(v.begin() + (idx), value)//for inserting an elem at an index in the vector
+#define vsert(v,idx, value) (v).insert((v).begin() + (idx), value)
+//for inserting an elem at an index in the vector
 #define vts(v) string(all(v))
 #define VOC(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
 #define vjoin(v1, v2) (v1.insert(v1.end(), v2.begin(), v2.end()))
 #define join(v) std::accumulate((vec).begin(), (vec).end(), std::string(""))
-#define join23(v) std::ranges::fold_left((vec), std::string{}, std::iplus<>())
 #define vin(v) for(int i=0; i<(int)v.size(); i++) cin>>v[i];//only for 0th based indexing inputs
 #define vout(v) for(int i=0; i<(int)v.size(); i++) cout<<v[i]<<' '//only for 0th based indexing outputs
 #define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
@@ -72,6 +77,16 @@ const int MAX_N = 1e9;
 #define debug(x) cerr << #x << " = " << x << endl;
 // ----------------------------------------------------------------------------------------
 using namespace std;
+
+struct hash_pair {
+    template<class T1, class T2>
+    size_t operator()(const pair<T1, T2>& p) const {
+        auto h1 = hash<T1>{}(p.first);
+        auto h2 = hash<T2>{}(p.second);
+        return h1 ^ (h2 << 1); // or use boost::hash_combine
+    }
+};
+
 using ll = long long;
 using vll = vector<ll>;
 using pll = pair<ll, ll>;
@@ -259,7 +274,7 @@ ll modpow(ll base, ll exp, ll mod) {
 //To check if a number is prime or not using Miller Rabin
 bool isPrime(ll n) {
     if (n < 2) return false;
-    const ll base = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    const vll base = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
     felm(base) {
         if (n % elem == 0) return n == elem;
     }
@@ -361,6 +376,7 @@ vector<T> RDKO(const vector<T> &a) {
 
 int main() {
   trainingForICPC();
- 
+  Test{
+   
+  }
 }
-
