@@ -24,6 +24,7 @@ const int MAX_N = 1e9;
 #define print2(x, y) cout << (x) << ' ' << (y) << '\n'
 #define printv(v) for (auto &e : v) cout << e << ' '; cout << '\n'
 #define printvv(vv) for (auto &v : vv) printv(v)
+#define Test int t; cin >> t; while(t--)
 // ----------------------------------------------------------------------------------------
 //sum macros
 #define suml(v) accumulate(all(v),0LL)
