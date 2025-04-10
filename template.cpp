@@ -2,9 +2,7 @@
 const int MOD=1e9+7;
 const int MAX_N = 1e9;
 #define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define forl(i,a,b) for(ll i=a;i<b;i++)
 #define fori(i,a,b) for(int i=a;i<b;i++)
-#define rforl(i,a,b) for(ll i=a;i>b;i--)
 #define rfori(i,a,b) for(int i=a;i>b;i--)
 #define fi(n) fori(i,0,n)
 #define fj(n) fori(j,0,n)
@@ -18,6 +16,7 @@ const int MAX_N = 1e9;
 #define rall(x) (x).rbegin(), (x).rend()
 #define scan(x) cin >> x
 #define scan2(x, y) cin >> x >> y
+#define scan3(x, y, z) cin >> x >> y >> z
 #define scanv(v) for (auto &e : v) cin >> e
 #define scanvv(vv) for (auto &v : vv) scanv(v)
 #define print(x) cout << (x) << '\n'
@@ -92,6 +91,55 @@ using stkpii = stack<pii>;
 using stkpll = stack<pll>;
 #define INF LLONG_MAX
 #define NINF LLONG_MIN
+
+
+// Modular power using binary exponentiation
+ll modpow(ll base, ll exp, ll mod) {
+    ll res = 1;
+    base %= mod;
+    while (exp > 0) {
+        if (isOdd(exp)) res = (res * base) % mod;
+        base = (base * base) % mod;
+        exp >>= 1;
+    }
+    return res;
+}
+//To check if a number is prime or not using Miller Rabin
+bool isPrime(long long n) {
+    if (n < 2) return false;
+    for (long long p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37})
+        if (n % p == 0) return n == p;
+    long long d = n - 1, s = 0;
+    while (d % 2 == 0) d /= 2, ++s;
+    auto modmul = [](long long a, long long b, long long m) {
+        return (__int128)a * b % m;
+    };
+    for (long long a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+        if (a >= n) break;
+        long long x = modpow(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int r = 1; r < s; ++r) {
+            x = modmul(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+//number to vector of digits template
+template <typename T>
+vii vod(T num) {
+    string s = str(num); // using str(x) macro
+    vii d; d.reserve(sz(s)); // sz(a) macro for size
+    felm(s) d.pb(elem - '0'); // felm(x) and pb macros
+    return d;
+}
+
+
 
 int main() {
   trainingForICPC();
