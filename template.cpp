@@ -105,30 +105,54 @@ ll modpow(ll base, ll exp, ll mod) {
     return res;
 }
 //To check if a number is prime or not using Miller Rabin
-bool isPrime(long long n) {
+bool isPrime(ll n) {
     if (n < 2) return false;
-    for (long long p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37})
-        if (n % p == 0) return n == p;
-    long long d = n - 1, s = 0;
+
+    felm({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+        if (n % elem == 0) return n == elem;
+    }
+
+    ll d = n - 1, s = 0;
     while (d % 2 == 0) d /= 2, ++s;
-    auto modmul = [](long long a, long long b, long long m) {
+
+    auto modmul = [](ll a, ll b, ll m) -> ll {
         return (__int128)a * b % m;
     };
-    for (long long a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
-        if (a >= n) break;
-        long long x = modpow(a, d, n);
+
+    felm({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+        if (elem >= n) break;
+        ll x = modpow(elem, d, n);
         if (x == 1 || x == n - 1) continue;
+
         bool composite = true;
-        for (int r = 1; r < s; ++r) {
+        fori(r, 1, s) {
             x = modmul(x, x, n);
             if (x == n - 1) {
                 composite = false;
                 break;
             }
         }
+
         if (composite) return false;
     }
+
     return true;
+}
+//template to print the prime factors and its exponents as pairs
+vpll primeFactors(ll n) {
+    vpll factors;
+    for (ll i = 2; i * i <= n; ++i) {
+        if (n % i == 0) {
+            ll cnt = 0;
+            while (n % i == 0) {
+                n /= i;
+                cnt++;
+            }
+            factors.pb({i, cnt});
+        }
+    }
+    if (n > 1) factors.pb({n, 1});
+    return factors;
 }
 //number to vector of digits template
 template <typename T>
@@ -138,7 +162,22 @@ vii vod(T num) {
     felm(s) d.pb(elem - '0'); // felm(x) and pb macros
     return d;
 }
+// bool to check if a number is a perfect square or not
+bool isPerfSquare(int num) {
+    if (num < 0) return false;
+    if (num == 0 || num == 1) return true;
 
+    int x = num;
+    int y = (x + 1) >> 1;
+
+    while (y < x) {
+        x = y;
+        y = (x + num / x) >> 1;
+    }
+
+    return x * x == num;
+}
+//
 
 
 int main() {
