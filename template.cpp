@@ -259,8 +259,8 @@ ll modpow(ll base, ll exp, ll mod) {
 //To check if a number is prime or not using Miller Rabin
 bool isPrime(ll n) {
     if (n < 2) return false;
-
-    felm({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+    const ll base = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    felm(base) {
         if (n % elem == 0) return n == elem;
     }
 
@@ -271,7 +271,7 @@ bool isPrime(ll n) {
         return (__int128)a * b % m;
     };
 
-    felm({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+    felm(base) {
         if (elem >= n) break;
         ll x = modpow(elem, d, n);
         if (x == 1 || x == n - 1) continue;
