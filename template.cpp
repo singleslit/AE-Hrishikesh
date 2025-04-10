@@ -312,9 +312,19 @@ string numToBinary(T n) {
     return bin;
 }
 // ----------------------------------------------------------------------------------------
-//Temporary functions created for the question:
+//Remove Duplicates Keep Order
+template <typename T>
+vector<T> RDKO(const vector<T> &a) {
+    unordered_set<T> seen;
+    vector<T> res;
+    felm(a) {
+        if (seen.insert(elem).second) res.pb(elem);
+    }
+    return res;
+}
 
 // ----------------------------------------------------------------------------------------
+
 int main() {
   trainingForICPC();
  
