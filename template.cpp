@@ -31,6 +31,15 @@ const int MAX_N = 1e9;
 #define YES cout<<"Yes"<<endl;
 #define NO cout<<"No"<<endl;
 // ----------------------------------------------------------------------------------------
+//input macros
+#define FLUSH cin.ignore(numeric_limits<streamsize>::max(), '\n') //Forget whatever is there in the current line and go to the next line. Use cin.ignore() for ignorning the very next character.
+#define READ_LINE_AFTER_INT(x, s) int x;string s; cin >> x; FLUSH; getline(cin, s)
+#define READ_MATRIX(mat, n, m) for (int i = 0; i < n; ++i) { string row; cin >> row; for (int j = 0; j < m; ++j) mat[i][j] = row[j] - '0'; }// for '1/0'
+#define SKIP_BLANKS while (cin.peek() == '\n') cin.ignore()
+// ----------------------------------------------------------------------------------------
+//debug macro
+#define debug(x) cerr << #x << " = " << x << '\n'
+// ----------------------------------------------------------------------------------------
 //sum macros
 #define suml(v) accumulate(all(v),0LL)
 #define sumi(v) accumulate(all(v),0)
@@ -73,21 +82,13 @@ const int MAX_N = 1e9;
 //array macros
 #define cleantable(m,v) memset(m,v,sizeof(m));
 // ----------------------------------------------------------------------------------------
-//debug macros
-#define debug(x) cerr << #x << " = " << x << endl;
+//character macros
+#define ctoi(c) ((c) - '0')
 // ----------------------------------------------------------------------------------------
 using namespace std;
-
-struct hash_pair {
-    template<class T1, class T2>
-    size_t operator()(const pair<T1, T2>& p) const {
-        auto h1 = hash<T1>{}(p.first);
-        auto h2 = hash<T2>{}(p.second);
-        return h1 ^ (h2 << 1); // or use boost::hash_combine
-    }
-};
-
 using ll = long long;
+using vch = vector<char>;
+using vvch = vector<vch>;
 using vll = vector<ll>;
 using pll = pair<ll, ll>;
 using pii = pair<int, int>;
@@ -113,8 +114,8 @@ using stkint = stack<int>;
 using stkll = stack<ll>;
 using stkpii = stack<pii>;
 using stkpll = stack<pll>;
-#define INF LLONG_MAX
-#define NINF LLONG_MIN
+#define INF INT_MAX
+#define NINF INT_MIN
 // ----------------------------------------------------------------------------------------
 //Bitwise template
 template <typename T> constexpr bool ispow2(T n) { return n && !(n & (n - 1)); }
@@ -377,6 +378,6 @@ vector<T> RDKO(const vector<T> &a) {
 int main() {
   trainingForICPC();
   Test{
-   
+    
   }
 }
