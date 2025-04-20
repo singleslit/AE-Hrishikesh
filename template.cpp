@@ -2,11 +2,8 @@
 const int MOD=1e9+7;
 const int MAX_N = 1e9;
 #define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
-#define fori(i,a,b) for(int i=a;i<b;i++)
-#define rfori(i,a,b) for(int i=a;i>b;i--)
-#define fi(n) fori(i,0,n)
-#define fj(n) fori(j,0,n)
-#define fk(n) fori(k,0,n)
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rof(i,a,b) for(int i=a;i>b;i--)
 #define sz(a) a.size()
 #define felm(x) for(auto elem:x)
 #define pb push_back
@@ -20,25 +17,18 @@ const int MAX_N = 1e9;
 #define lscan(x) ll x;cin >> x
 #define lscan2(x, y) ll x,y;cin >> x >> y
 #define lscan3(x, y, z) ll x,y,z;cin >> x >> y >> z
-#define scanv(v) for (auto &e : v) cin >> e
-#define scanvv(vv) for (auto &v : vv) scanv(v)
-#define print(x) cout << (x) << '\n'
-#define printsp(x) cout << (x) << ' '
-#define print2(x, y) cout << (x) << ' ' << (y) << '\n'
-#define printv(v) for (auto &e : v) cout << e << ' '; cout << '\n'
-#define printvv(vv) for (auto &v : vv) printv(v)
+#define si1(x) cin >> x
+#define si2(x, y) cin >> x >> y
+#define si3(x, y, z) cin >> x >> y >> z
+#define pi1(x) cout << (x) << '\n'
+#define pi2(x, y) cout << (x) << ' ' << (y) << '\n'
 #define Test int t; cin >> t; while(t--)
-#define YES cout<<"Yes"<<endl;
-#define NO cout<<"No"<<endl;
+#define YES cout<<"Yes"<<endl
+#define NO cout<<"No"<<endl
 // ----------------------------------------------------------------------------------------
 //input macros
 #define FLUSH cin.ignore(numeric_limits<streamsize>::max(), '\n') //Forget whatever is there in the current line and go to the next line. Use cin.ignore() for ignorning the very next character.
-#define READ_LINE_AFTER_INT(x, s) int x;string s; cin >> x; FLUSH; getline(cin, s)
-#define READ_MATRIX(mat, n, m) for (int i = 0; i < n; ++i) { string row; cin >> row; for (int j = 0; j < m; ++j) mat[i][j] = row[j] - '0'; }// for '1/0'
-#define SKIP_BLANKS while (cin.peek() == '\n') cin.ignore()
-// ----------------------------------------------------------------------------------------
-//debug macro
-#define debug(x) cerr << #x << " = " << x << '\n'
+#define avoidBlanks while (cin.peek() == '\n') cin.ignore()
 // ----------------------------------------------------------------------------------------
 //sum macros
 #define suml(v) accumulate(all(v),0LL)
@@ -64,15 +54,12 @@ const int MAX_N = 1e9;
 #define vout(v) for(int i=0; i<(int)v.size(); i++) cout<<v[i]<<' '//only for 0th based indexing outputs
 #define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
 #define rotater(v, k) rotate((v).rbegin(), (v).rbegin() + ((k) % (v).size()), (v).rend())
-#define dsort(v) sort(all(v), greater<>())
-#define sortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second < b.second; })
-#define dsortp2(v) sort((v).begin(), (v).end(), [](auto &a, auto &b) { return a.second > b.second; })
+#define sortall(v) sort(all(v))
+#define dsortall(v) sort(all(v), greater<>())
 // ----------------------------------------------------------------------------------------
 //math macros
-#define isEven(n) n%2==0
-#define isOdd(n) n%2==1
 #define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
-#define COD(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
+#define digitCount(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
 #define add(a,b) a=(a+(b))%MOD
 #define ceil2(a, b) (((a) + (b) - 1) / (b))
 // ----------------------------------------------------------------------------------------
@@ -99,6 +86,8 @@ using vecs = vector<string>;
 using vpii = vector<pair<int, int>>;
 using vvpii = vector<vpii>;
 using vpll = vector<pair<ll, ll>>;
+using vpci = vector<pair<char,int>>;
+using vpcl = vector<pair<char,ll>>;
 using vvpll = vector<vpll>;
 using vbl = vector<bool>;
 using vvbl = vector<vector<bool>>;
@@ -207,13 +196,13 @@ vll mono_stack(const vll &a, bool rev, Compare cmp, ll none_val) {
     stkint stk;
 
     if (!rev) {
-        fi(n) {
+        rep(i,0,n) {
             while (!stk.empty() && cmp(a[i], a[stk.top()])) stk.pop();
             res[i] = stk.empty() ? none_val : stk.top() + 1;
             stk.push(i);
         }
     } else {
-        rfori(i, n - 1, -1) {
+        rof(i, n - 1, -1) {
             while (!stk.empty() && cmp(a[i], a[stk.top()])) stk.pop();
             res[i] = stk.empty() ? none_val : stk.top() + 1;
             stk.push(i);
@@ -238,27 +227,29 @@ int MSS(const vii &a) {
 }
 // ----------------------------------------------------------------------------------------
 //Maximum 2D Sum Subarray
-ll max_2d_sum_subarray(vvll grid) {
-    ll rows = sz(grid);
-    ll cols = grid.empty() ? 0 : sz(grid[0]);
-    ll maxsum = -INF;
+ll max_2d_sum_subarray(const vvll& grid) {
+  int rows = grid.size();
+  if(rows == 0) return 0;
+  int cols = grid[0].size();
+  ll maxsum = LLONG_MIN;
 
-    fori(lp, 0, cols) {
-        vll linear(rows, 0);
-        fori(rp, lp, cols) {
-            fi(rows) linear[i] += grid[i][rp];
+  for (int lp = 0; lp < cols; lp++) {
+    vll linear(rows, 0);
+    for (int rp = lp; rp < cols; rp++) {
+      for (int i = 0; i < rows; i++) {
+        linear[i] += grid[i][rp];
+      }
+      ll currmax = linear[0];
+      ll bestmax = linear[0];
+      for (int i = 1; i < rows; i++) {
+        currmax = max(linear[i], currmax + linear[i]);
+        bestmax = max(bestmax, currmax);
 
-            ll currmax = linear[0], bestmax = linear[0];
-            fori(i, 1, rows) {
-                currmax = max(linear[i], currmax + linear[i]);
-                bestmax = max(bestmax, currmax);
-            }
-
-            maxsum = max(maxsum, bestmax);
-        }
+      }
+      maxsum = max(maxsum, bestmax);
     }
-
-    return maxsum;
+  }
+  return maxsum;
 }
 // Modular power using binary exponentiation
 ll modpow(ll base, ll exp, ll mod) {
@@ -293,7 +284,7 @@ bool isPrime(ll n) {
         if (x == 1 || x == n - 1) continue;
 
         bool composite = true;
-        fori(r, 1, s) {
+        rep(r, 1, s) {
             x = modmul(x, x, n);
             if (x == n - 1) {
                 composite = false;
