@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-const int MOD=1e9+7;
-const int MAX_N = 1e9;
 #define trainingForICPC() ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
 #define rep(i,a,b) for(int i=a;i<b;i++)
 #define rof(i,a,b) for(int i=a;i>b;i--)
@@ -105,6 +103,20 @@ using stkpii = stack<pii>;
 using stkpll = stack<pll>;
 #define INF INT_MAX
 #define NINF INT_MIN
+// ----------------------------------------------------------------------------------------
+template <typename K, typename V>
+void print_map(const map<K, V>& m) {
+    for (const auto& pair : m) {
+        cout << pair.first << " => " << pair.second << endl;
+    }
+}
+
+void print_stack(stack<int> st) {
+    while (!st.empty()) {
+        cout << st.top() << " ";
+        st.pop();
+    }
+}
 // ----------------------------------------------------------------------------------------
 //Bitwise template
 template <typename T> constexpr bool ispow2(T n) { return n && !(n & (n - 1)); }
@@ -251,6 +263,39 @@ ll max_2d_sum_subarray(const vvll& grid) {
   }
   return maxsum;
 }
+// ----------------------------------------------------------------------------------------
+//Maximum 2D Sum Torus
+int max_2d_sum_torus(vvii& mat) {
+  int n = sz(mat);
+  int maxsum = INT_MIN;
+  rep(i,0,n) {
+    vii temp(n,0);
+    rep(j,0,n) {
+      int r = (i+j)%n;
+      rep(k,0,n) {
+	temp[k] += mat[r][k];
+      }
+      vii ps(2*n + 1,0);
+      rep(k,0,2*n) {
+	ps[k+1] = ps[k] + temp[k%n];
+      }
+      deque<int> dq;
+      dq.push_back(0);
+      rep(k,1,2*n+1) {
+	if (!dq.empty() && k-dq.front() > n) {
+	  dq.pop_front();
+	}
+	maxsum = max(maxsum, ps[k]-ps[dq.front()]);
+	while(!dq.empty() && ps[dq.back()] >= ps[k]) {
+	  dq.pop_back();
+	}
+	dq.push_back(k);
+      }
+    }
+  }
+  return maxsum;
+}
+// ----------------------------------------------------------------------------------------
 // Modular power using binary exponentiation
 ll modpow(ll base, ll exp, ll mod) {
     ll res = 1;
