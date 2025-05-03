@@ -5,7 +5,7 @@ struct dsu
   {
     parent.resize(n);
     size.assign(n, 1);
-    rep(i, 0, n) parent[i] = i;
+    rep(i,n) parent[i] = i;
   }
 
   int leader(int x)
