@@ -1,4 +1,3 @@
-I am Hrishikesh Vinod. 
-Training to be the best coder in the world.
-Not like I will be one.
-But I will try.
+ICPC Training 2025
+Training Log: https://docs.google.com/spreadsheets/d/1PauouvIniv10VrJSm72JX8aWH__28hHLBhSa3QiIY4Y/edit?usp=sharing
+Email: h.kesh.vinod@gmail.com
