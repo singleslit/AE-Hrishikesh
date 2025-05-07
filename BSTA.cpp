@@ -1,3 +1,5 @@
+//Classic template
+
 template <typename F>
 ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
   if (check_ok) assert(check(ok));
@@ -7,3 +9,4 @@ ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
   }
   return ok;
 }
+
