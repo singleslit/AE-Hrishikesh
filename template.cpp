@@ -60,7 +60,6 @@ using mint = modint998244353;
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
 #define ubset(s,target) s.upper_bound(target)
 //vector macros
-#define slice(vec,start,end) vii((vec).begin() + (start), (vec).begin() + (end))
 #define ins(v,idx, value) (v).insert((v).begin() + (idx), value)
 //for inserting an elem at an index in the vector
 #define voc(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
@@ -329,6 +328,15 @@ void _print(T t, V... v) {
     __print(t);
     if (sizeof...(v)) cout << ", ";
     _print(v...);
+}
+template <typename T>
+std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
+    if (l < 0) l += v.size();  // Handle negative indexing like Python
+    if (r < 0) r += v.size();
+    l = std::max(0, l);
+    r = std::min((int)v.size(), r);
+    if (l > r) l = r;  // Avoid invalid range
+    return std::vector<T>(v.begin() + l, v.begin() + r);
 }
 
 
