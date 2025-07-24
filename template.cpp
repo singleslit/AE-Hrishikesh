@@ -21,7 +21,6 @@ using mint = modint998244353;
 #define repsq(i, n) for (ll i = 1; ((i) * (i) < n); ++i)
 #define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
 #define len(x) (int)(x).size()
-#define all(x) (x).begin(), (x).end()
 #define sum(...) accumulate(all(__VA_ARGS__),0LL)
 #define uniq(vec) sort(all(vec)); vec.erase(unique(all(vec)),end(vec))
 #define rev(vec) reverse(vec.begin(), vec.end())
@@ -56,7 +55,9 @@ using mint = modint998244353;
 #define lb(v,target) lower_bound(all(v), target)
 #define rlb(v,target) lower_bound(rall(v), target)
 #define lbset(s,target) s.lower_bound(target)
-#define ub(v,target) upper_bound(all(v), target) 
+#define ub(v,target) upper_bound(all(v), target)
+#define lbidx(v,target) lb(v,target)-v.begin()
+#define ubidx(v,target) ub(v,target)-v.begin()
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
 #define ubset(s,target) s.upper_bound(target)
 //vector macros
@@ -64,14 +65,13 @@ using mint = modint998244353;
 //for inserting an elem at an index in the vector
 #define voc(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
 #define vjoin(v1, v2) (v1.insert(v1.end(), v2.begin(), v2.end()))
-#define join(v) std::accumulate((vec).begin(), (vec).end(), std::string(""))
 #define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
 #define rotater(v, k) rotate((v).rbegin(), (v).rbegin() + ((k) % (v).size()), (v).rend())
 // ----------------------------------------------------------------------------------------
 //math macros
 #define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
 #define digitcount(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
-#define ceil(a, b) (((a) + (b) - 1) / (b))
+#define cdiv(a, b) (((a) + (b) - 1) / (b))
 // ----------------------------------------------------------------------------------------
 //string macros
 #define str(x) to_string(x)
@@ -82,7 +82,19 @@ using mint = modint998244353;
 //character macros
 #define ctoi(c) ((c) - '0')
 // ----------------------------------------------------------------------------------------
-using namespace std;
+//bit macros
+#define bit(x, i) (((x) >> (i)) & 1)
+#define popcount(x) __builtin_popcountll(x)
+#define lsb(x) ((x) & -(x))
+//
+#define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
+
+//
+const int dx4[4] = {1, 0, -1, 0}, dy4[4] = {0, 1, 0, -1};
+const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+const int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+
+// ----------------------------------------------------------------------------------------
 using ll = long long;
 using ld = long double;
 using ull = unsigned long long;
@@ -99,7 +111,7 @@ using vecs = vector<string>;
 using vpii = vector<pair<int, int>>;
 using vvpii = vector<vpii>;
 using vch = vector<char>;
-using vvcc = vector<vector<char>>;
+using vvch = vector<vector<char>>;
 using vpll = vector<pair<ll, ll>>;
 using vpci = vector<pair<char,int>>;
 using vpcl = vector<pair<char,ll>>;
@@ -112,23 +124,27 @@ using setii = set<int>;
 using setll = set<ll>;
 using setpll = set<pll>;
 using setpii = set<pii>;
+using setstr = set<string>;
 using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
 using stkint = stack<int>;
 using stkll = stack<ll>;
 using stkpii = stack<pii>;
 using stkpll = stack<pll>;
-#define INF 1e18
-#define NINF -1e18
+static constexpr ll inf  = 1000000000000000000LL;
+static constexpr ll ninf  = -1000000000000000000LL;
 // ----------------------------------------------------------------------------------------
-template<class T> auto min(const T& a){ return *min_element(all(a)); }
-template<class T> auto max(const T& a){ return *max_element(all(a)); }
+template<class T> auto vmin(const T& a){ return *min_element(all(a)); }
+template<class T> auto vmax(const T& a){ return *max_element(all(a)); }
 template<class T> void chmin(T& a, T b) { if (a > b) a = b; }
 template<class T> void chmax(T& a, T b) { if (a < b) a = b; }
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > T(b)){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < T(b)){ a = b; return 1; } return 0; }
-template<class T>
-using spq = priority_queue<T, vector<T>, greater<T>>;
+template<typename T>
+using maxpq = priority_queue<T>;
+template<typename T>
+using minpq = priority_queue<T, vector<T>, greater<T>>;
+
  
 //scan
 inline void scan() {}
@@ -222,6 +238,17 @@ inline void print(const std::vector<T> &vec) {
         print(*i);
     }
 }
+template <typename T>
+inline void print(const std::set<T>& s) {
+    if (s.empty()) return;
+    auto it = s.begin();
+    print(*it);
+    for (++it; it != s.end(); ++it) {
+        cout << ' ';
+        print(*it);
+    }
+}
+
 template <class T>
 inline void print(const std::deque<T> &vec) {
     if (vec.empty()) return;
@@ -329,17 +356,26 @@ void _print(T t, V... v) {
     if (sizeof...(v)) cout << ", ";
     _print(v...);
 }
-template <typename T>
-std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
-    if (l < 0) l += v.size();  // Handle negative indexing like Python
-    if (r < 0) r += v.size();
-    l = std::max(0, l);
-    r = std::min((int)v.size(), r);
-    if (l > r) l = r;  // Avoid invalid range
-    return std::vector<T>(v.begin() + l, v.begin() + r);
+//redefined find template to give -1 if key not found.
+template<typename Container, typename Key>
+inline int find_idx(const Container &c, const Key &key) {
+    auto it = std::find(std::begin(c), std::end(c), key);
+    if (it == std::end(c)) return -1;
+    return int(std::distance(std::begin(c), it));
 }
 
-
+template<typename T, typename Func>
+T bitwise_bs(T start, int maxpow, Func works, bool maximise = true) {
+    T cur = start;
+    for (T step = (1LL << maxpow); step > 0; step >>= 1) {
+        if (maximise) {
+            if (works(cur + step)) cur += step;
+        } else {
+            if (works(cur - step)) cur -= step;
+        }
+    }
+    return cur;
+}
 
 
 
@@ -352,54 +388,154 @@ struct IoSetup {
     }
 } iosetup;
 
+const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
 
-struct dsu
+vll primes_upto(ll n) 
 {
-  vii parent,size;
-  dsu(int n)
-  {
-    parent.resize(n);
-    size.assign(n,1);
-    rep(i,n) parent[i]=i;
-  }
+    if (n < 2) return {};
 
-  int leader(int x)
-  {
-    if (parent[x]==x) return x;
-    return parent[x]=leader(parent[x]);
-  }
+    bitset<50000001> is_prime;
+    is_prime.set();
+    is_prime[0] = 0; // 1 is not prime
 
-  bool merge(int x,int y)
-  {
-    x=leader(x);
-    y=leader(y);
-    if (x==y) return false;
-    if (size[x]<size[y]) swap(x,y);
-    parent[y]=x;
-    size[x]+=size[y];
-    return true;
-  }
+    vll primes = {2, 3, 5};
 
-  bool same(int x, int y)
-  {
-    return leader(x)==leader(y);
-  }
+    int sqrt_n = sqrt(n);
 
-  int setsz(int x)
-  {
-    return size[leader(x)];
-  }
-  
-};
+    for (int p = 7; p <= sqrt_n; p += 2) {
+        // Check only numbers coprime to 2, 3, 5
+        ll mod30 = p % 30;
+        bool good = false;
+        each(r,residues)
+            if (r == mod30) good = true;
 
+        if (!good) continue;
+        if (!is_prime[p/2]) continue;
 
-int main()
-{
-  Test
-    {
-      
+        for (int j = p*p; j <= n; j += 2*p) {
+            is_prime[j/2] = 0;
+        }
     }
-  return 0;
+
+    for (int p = 7; p <= n; p += 2) {
+        int mod30 = p % 30;
+        each(r,residues) {
+            if (mod30 == r) {
+                if (is_prime[p/2]) primes.push_back(p);
+                break;
+            }
+        }
+    }
+
+    return primes;
+}
+ll power(ll a, ll b) 
+{
+    ll result = 1;
+    while (b > 0) {
+        if (b % 2 == 1) result *= a;
+        a *= a;
+        b /= 2;
+    }
+    return result;
 }
 
+string to_base(ll a,ll b)
+{
+  if (b<2 || b>36) throw invalid_argument("base out of range");
+    if (a == 0) return "0";
+    static const char* digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string s;
+    while (a > 0) {
+        int rem = a % b;
+        s.pb(digits[rem]);
+        a /= b;
+    }
+    reverse(all(s));
+    return s;
+}
+
+template <typename T>
+std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
+    if (l < 0) l += v.size();  // Handle negative indexing like Python
+    if (r < 0) r += v.size();
+    l = std::max(0, l);
+    r = std::min((int)v.size(), r);
+    if (l > r) l = r;  // Avoid invalid range
+    return std::vector<T>(v.begin() + l, v.begin() + r);
+}
+
+
+vll all_divisors(ll n) {
+    vll divs;
+    for (ll i = 1; i * i <= n; ++i) {
+        if (n % i == 0) {
+            divs.push_back(i);
+            if (i != n / i) divs.push_back(n / i);
+        }
+    }
+    sort(all(divs));
+    return divs;
+}
+
+vll pqtop(priority_queue<ll>pq,ll k)
+{
+  vll res;
+  while (k-- && !pq.empty()) {
+    res.pb(pq.top());
+    pq.pop();
+  }
+  return res;
+}
+
+//Classic template
+
+template <typename F>
+ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
+  if (check_ok) assert(check(ok));
+  while (abs(ok - ng) > 1) {
+    ll x = (ok + ng) / 2;
+    (check(x) ? ok : ng) = x;
+  }
+  return ok;
+}
+
+
+
+struct pair_hash {
+    size_t operator()(const pll& p) const {
+        return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
+    }
+};
+
+int main() 
+{
+  
+  
+}
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
