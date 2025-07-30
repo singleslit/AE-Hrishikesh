@@ -679,19 +679,6 @@ static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
 
-mint floor_sum(ll N)
-{
-	mint res = 0;
-	for(ll i = 1 ; i<=N ;)
-	{
-		ll val = N/i;
-		ll r = N/val;
-		res += mint(val) * mint(r-i+1);
-		i = r+1;
-	}
-	return res;
-}
-
 int main() 
 {
 	
