@@ -68,6 +68,8 @@ using namespace std;
 // ----------------------------------------------------------------------------------------
 //string macros
 #define str(x) to_string(x)
+#define tolower(s) transform(s.begin(), s.end(), s.begin(), ::tolower)
+
 // ----------------------------------------------------------------------------------------
 //array macros
 #define cleantable(m,v) memset(m,v,sizeof(m));
@@ -77,16 +79,28 @@ using namespace std;
 // ----------------------------------------------------------------------------------------
 //bit macros
 #define bit(x, i) (((x) >> (i)) & 1)
-#define popcount(x) __builtin_popcountll(x)
+#define llsetbit(x) __builtin_popcountll(x)
+#define setbit(x) __builtin_popcount(x)
 #define lsb(x) ((x) & -(x))
-//
+#define msb(x) ((x) == 0 ? -1 : 63 - __builtin_clzll(x))
+// ----------------------------------------------------------------------------------------
+//recursion macros
+#define rfun(name, ret_type, ...) \
+    std::function<ret_type(__VA_ARGS__)> name = [&](__VA_ARGS__) -> ret_type
 #define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
-
-//
+//----------------------------------------------------------------------------------------
 const int dx4[4] = {1, 0, -1, 0}, dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
 const int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
-
+// ----------------------------------------------------------------------------------------
+struct IoSetup {
+    IoSetup() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(15);
+        cerr << fixed << setprecision(15);
+    }
+} iosetup;
 // ----------------------------------------------------------------------------------------
 using ll = long long;
 using ld = long double;
@@ -137,8 +151,6 @@ template<typename T>
 using maxpq = priority_queue<T>;
 template<typename T>
 using minpq = priority_queue<T, vector<T>, greater<T>>;
-
- 
 //scan
 inline void scan() {}
 inline void scan(int &a) { std::cin >> a; }
@@ -241,7 +253,6 @@ inline void print(const std::set<T>& s) {
         print(*it);
     }
 }
-
 template <class T>
 inline void print(const std::deque<T> &vec) {
     if (vec.empty()) return;
@@ -319,7 +330,6 @@ void __print(const set<T> &v) {
     }
     cout << "}";
 }
-
 template<typename T>
 void __print(const multiset<T> &v) { __print(set<T>(v.begin(), v.end())); }
 
@@ -334,7 +344,6 @@ void __print(const map<K, V> &v) {
     }
     cout << "}";
 }
-
 template<typename T>
 void __print(const unordered_set<T> &v) { __print(set<T>(v.begin(), v.end())); }
 
@@ -369,17 +378,6 @@ T bitwise_bs(T start, int maxpow, Func works, bool maximise = true) {
     }
     return cur;
 }
-
-
-
-struct IoSetup {
-    IoSetup() {
-        cin.tie(nullptr);
-        ios::sync_with_stdio(false);
-        cout << fixed << setprecision(15);
-        cerr << fixed << setprecision(15);
-    }
-} iosetup;
 
 const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
 
