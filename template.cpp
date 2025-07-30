@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+#define overload5(_1,_2,_3,_4,_5,name,...) name
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
 #define rep1(n) for(ll i=0;i<n;++i)
@@ -36,6 +36,8 @@ using namespace std;
 #define eb emplace_back
 #define lexi lexicographical_compare
 #define Test int t; cin >> t; while(t--)
+#define YES cout<<"Yes"<<endl
+#define NO cout<<"No"<<endl
 #define dbg(...) cout << #__VA_ARGS__ << " = ", _print(__VA_ARGS__)
 #define sint(...) int __VA_ARGS__; in(__VA_ARGS__)
 #define sll(...) ll __VA_ARGS__; in(__VA_ARGS__)
@@ -397,89 +399,6 @@ T bitwise_bs(T start, int maxpow, Func works, bool maximise = true) {
     return cur;
 }
 
-namespace rng = std::ranges;
-
-template <typename R, typename T>
-int rcnt(const R& r, const T& val) {
-    return rng::count(r, val);
-}
-
-template <typename R, typename Pred>
-int rcntif(const R& r, Pred pred) {
-    return rng::count_if(r, pred);
-}
-
-template <typename R>
-void rsort(R& r) {
-    rng::sort(r);
-}
-
-template <typename R, typename Proj, typename Comp>
-void rsort(R& r, Comp comp, Proj proj) {
-    rng::sort(r, comp, proj);
-}
-
-template <typename T>
-auto rmin(const T& a, const T& b) {
-    return rng::min(a, b);
-}
-
-template <typename T>
-auto rmax(const T& a, const T& b) {
-    return rng::max(a, b);
-}
-
-template <typename T, typename Comp>
-auto rmin(const T& a, const T& b, Comp comp) {
-    return rng::min(a, b, comp);
-}
-
-template <typename T, typename Comp>
-auto rmax(const T& a, const T& b, Comp comp) {
-    return rng::max(a, b, comp);
-}
-
-template <typename Range>
-auto rmin(const Range& r) {
-    return rng::min(r);
-}
-
-template <typename Range>
-auto rmax(const Range& r) {
-    return rng::max(r);
-}
-
-template <typename Range, typename Proj>
-auto rmin(const Range& r, Proj proj) {
-    return rng::min(r, {}, proj);  // Default comparator, custom projection
-}
-
-template <typename Range, typename Proj>
-auto rmax(const Range& r, Proj proj) {
-    return rng::max(r, {}, proj);
-}
-
-template <typename R, typename Pred>
-auto filter_view(R&& range, Pred&& pred) {
-    return std::forward<R>(range) | std::views::filter(std::forward<Pred>(pred));
-}
-
-template <typename R, typename Func>
-auto transform_view(R&& range, Func&& func) {
-    return std::forward<R>(range) | std::views::transform(std::forward<Func>(func));
-}
-
-template <typename R>
-auto take_view(R&& range, size_t n) {
-    return std::forward<R>(range) | std::views::take(n);
-}
-
-template <typename R>
-auto drop_view(R&& range, size_t n) {
-    return std::forward<R>(range) | std::views::drop(n);
-}
-
-
 struct IoSetup {
     IoSetup() {
         cin.tie(nullptr);
@@ -679,9 +598,8 @@ static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
 
-int main() 
+int main()
 {
-	
 }
 
 
