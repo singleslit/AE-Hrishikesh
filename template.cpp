@@ -1,12 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-#if __has_include(<atcoder/all>)
-#include <atcoder/all>
-using namespace atcoder;
-using mint = modint998244353;
-// using mint = modint1000000007;
-// using mint = double;
-#endif
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
 #define rep1(n) for(ll i=0;i<n;++i)
@@ -507,6 +500,70 @@ struct pair_hash {
         return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
     }
 };
+
+// ──────────────────────────────────────────────────────────────────────────────
+// modint<MOD>
+// ──────────────────────────────────────────────────────────────────────────────
+template<ll M>
+struct modint {
+    ll v;
+    constexpr modint(ll _v = 0) noexcept {
+        v = _v % M;
+        if (v < 0) v += M;
+    }
+    // addition / subtraction
+    constexpr modint& operator+=(modint o) noexcept {
+        v += o.v;
+        if (v >= M) v -= M;
+        return *this;
+    }
+    constexpr modint& operator-=(modint o) noexcept {
+        v -= o.v;
+        if (v < 0) v += M;
+        return *this;
+    }
+    // multiplication
+    constexpr modint& operator*=(modint o) noexcept {
+        v = (unsigned long long)v * o.v % M;
+        return *this;
+    }
+    // binary exponentiation
+    friend modint power(modint x, ll e) {
+        modint res(1);
+        while (e > 0) {
+            if (e & 1) res *= x;
+            x *= x;
+            e >>= 1;
+        }
+        return res;
+    }
+    // inverse (M must be prime)
+    friend modint inv(modint x) {
+        return power(x, M - 2);
+    }
+    // division
+    constexpr modint& operator/=(modint o) noexcept {
+        return *this *= inv(o);
+    }
+
+    // lee-way operators
+    constexpr modint operator+(modint o) const noexcept { return modint(*this) += o; }
+    constexpr modint operator-(modint o) const noexcept { return modint(*this) -= o; }
+    constexpr modint operator*(modint o) const noexcept { return modint(*this) *= o; }
+    constexpr modint operator/(modint o) const noexcept { return modint(*this) /= o; }
+
+    // I/O
+    friend ostream& operator<<(ostream& os, modint x) {
+        return os << x.v;
+    }
+    friend istream& operator>>(istream& is, modint& x) {
+        ll t; is >> t; x = modint(t); return is;
+    }
+};
+
+static constexpr ll MOD = 998244353;
+using mint = modint<MOD>;
+
 
 int main() 
 {
