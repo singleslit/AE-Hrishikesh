@@ -36,8 +36,6 @@ using namespace std;
 #define eb emplace_back
 #define lexi lexicographical_compare
 #define Test int t; cin >> t; while(t--)
-#define YES cout<<"Yes"<<endl
-#define NO cout<<"No"<<endl
 #define dbg(...) cout << #__VA_ARGS__ << " = ", _print(__VA_ARGS__)
 #define sint(...) int __VA_ARGS__; in(__VA_ARGS__)
 #define sll(...) ll __VA_ARGS__; in(__VA_ARGS__)
