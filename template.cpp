@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
 #define rep1(n) for(ll i=0;i<n;++i)
@@ -13,17 +14,27 @@ using namespace std;
 #define rrep4(i,a,b,c) for(ll i=(a)+((b)-(a)-1)/(c)*(c);i>=(a);i-=c)
 #define repsq(i, n) for (ll i = 1; ((i) * (i) < n); ++i)
 #define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
+#define each1(i,a) for(auto&&i:a)
+#define each2(x,y,a) for(auto&&[x,y]:a)
+#define each3(x,y,z,a) for(auto&&[x,y,z]:a)
+#define each4(w,x,y,z,a) for(auto&&[w,x,y,z]:a)
+#define each(...) overload5(__VA_ARGS__,each4,each3,each2,each1)(__VA_ARGS__)
+#define all1(i) begin(i),end(i)
+#define all2(i,a) begin(i),begin(i)+a
+#define all3(i,a,b) begin(i)+a,begin(i)+b
+#define all(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
+#define rall1(i) rbegin(i),rend(i)
+#define rall2(i,a) rbegin(i),rbegin(i)+a
+#define rall3(i,a,b) rbegin(i)+a,rbegin(i)+b
+#define rall(...) overload3(__VA_ARGS__,rall3,rall2,rall1)(__VA_ARGS__)
 #define len(x) (int)(x).size()
 #define sum(...) accumulate(all(__VA_ARGS__),0LL)
 #define uniq(vec) sort(all(vec)); vec.erase(unique(all(vec)),end(vec))
 #define rev(vec) reverse(vec.begin(), vec.end())
-#define each(x, a) for(auto& x : a)
 #define elif else if
 #define pb push_back
 #define eb emplace_back
 #define lexi lexicographical_compare
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
 #define Test int t; cin >> t; while(t--)
 #define YES cout<<"Yes"<<endl
 #define NO cout<<"No"<<endl
@@ -87,20 +98,16 @@ using namespace std;
 //recursion macros
 #define rfun(name, ret_type, ...) \
     std::function<ret_type(__VA_ARGS__)> name = [&](__VA_ARGS__) -> ret_type
+
+
+//
 #define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
-//----------------------------------------------------------------------------------------
+
+//
 const int dx4[4] = {1, 0, -1, 0}, dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
 const int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
-// ----------------------------------------------------------------------------------------
-struct IoSetup {
-    IoSetup() {
-        cin.tie(nullptr);
-        ios::sync_with_stdio(false);
-        cout << fixed << setprecision(15);
-        cerr << fixed << setprecision(15);
-    }
-} iosetup;
+
 // ----------------------------------------------------------------------------------------
 using ll = long long;
 using ld = long double;
@@ -143,14 +150,14 @@ static constexpr ll ninf  = -1000000000000000000LL;
 // ----------------------------------------------------------------------------------------
 template<class T> auto vmin(const T& a){ return *min_element(all(a)); }
 template<class T> auto vmax(const T& a){ return *max_element(all(a)); }
-template<class T> void chmin(T& a, T b) { if (a > b) a = b; }
-template<class T> void chmax(T& a, T b) { if (a < b) a = b; }
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > T(b)){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < T(b)){ a = b; return 1; } return 0; }
 template<typename T>
 using maxpq = priority_queue<T>;
 template<typename T>
 using minpq = priority_queue<T, vector<T>, greater<T>>;
+
+ 
 //scan
 inline void scan() {}
 inline void scan(int &a) { std::cin >> a; }
@@ -163,7 +170,7 @@ inline void scan(float &a) { std::cin >> a; }
 inline void scan(double &a) { std::cin >> a; }
 inline void scan(long double &a) { std::cin >> a; }
 inline void scan(std::vector<bool> &vec) {
-    for (int32_t i = 0; i < vec.size(); i++) {
+    for (size_t i = 0; i < vec.size(); i++) {
         int a;
         scan(a);
         vec[i] = a;
@@ -253,6 +260,7 @@ inline void print(const std::set<T>& s) {
         print(*it);
     }
 }
+
 template <class T>
 inline void print(const std::deque<T> &vec) {
     if (vec.empty()) return;
@@ -330,6 +338,7 @@ void __print(const set<T> &v) {
     }
     cout << "}";
 }
+
 template<typename T>
 void __print(const multiset<T> &v) { __print(set<T>(v.begin(), v.end())); }
 
@@ -344,6 +353,7 @@ void __print(const map<K, V> &v) {
     }
     cout << "}";
 }
+
 template<typename T>
 void __print(const unordered_set<T> &v) { __print(set<T>(v.begin(), v.end())); }
 
@@ -358,6 +368,16 @@ void _print(T t, V... v) {
     if (sizeof...(v)) cout << ", ";
     _print(v...);
 }
+template<typename... Args>
+void __print(const std::tuple<Args...>& t) {
+    cout << "(";
+    std::apply([](const auto&... args) {
+        size_t i = 0;
+        ((cout << (i++ ? ", " : "") << args), ...);
+    }, t);
+    cout << ")";
+}
+
 //redefined find template to give -1 if key not found.
 template<typename Container, typename Key>
 inline int find_idx(const Container &c, const Key &key) {
@@ -378,6 +398,98 @@ T bitwise_bs(T start, int maxpow, Func works, bool maximise = true) {
     }
     return cur;
 }
+
+namespace rng = std::ranges;
+
+template <typename R, typename T>
+int rcnt(const R& r, const T& val) {
+    return rng::count(r, val);
+}
+
+template <typename R, typename Pred>
+int rcntif(const R& r, Pred pred) {
+    return rng::count_if(r, pred);
+}
+
+template <typename R>
+void rsort(R& r) {
+    rng::sort(r);
+}
+
+template <typename R, typename Proj, typename Comp>
+void rsort(R& r, Comp comp, Proj proj) {
+    rng::sort(r, comp, proj);
+}
+
+template <typename T>
+auto rmin(const T& a, const T& b) {
+    return rng::min(a, b);
+}
+
+template <typename T>
+auto rmax(const T& a, const T& b) {
+    return rng::max(a, b);
+}
+
+template <typename T, typename Comp>
+auto rmin(const T& a, const T& b, Comp comp) {
+    return rng::min(a, b, comp);
+}
+
+template <typename T, typename Comp>
+auto rmax(const T& a, const T& b, Comp comp) {
+    return rng::max(a, b, comp);
+}
+
+template <typename Range>
+auto rmin(const Range& r) {
+    return rng::min(r);
+}
+
+template <typename Range>
+auto rmax(const Range& r) {
+    return rng::max(r);
+}
+
+template <typename Range, typename Proj>
+auto rmin(const Range& r, Proj proj) {
+    return rng::min(r, {}, proj);  // Default comparator, custom projection
+}
+
+template <typename Range, typename Proj>
+auto rmax(const Range& r, Proj proj) {
+    return rng::max(r, {}, proj);
+}
+
+template <typename R, typename Pred>
+auto filter_view(R&& range, Pred&& pred) {
+    return std::forward<R>(range) | std::views::filter(std::forward<Pred>(pred));
+}
+
+template <typename R, typename Func>
+auto transform_view(R&& range, Func&& func) {
+    return std::forward<R>(range) | std::views::transform(std::forward<Func>(func));
+}
+
+template <typename R>
+auto take_view(R&& range, size_t n) {
+    return std::forward<R>(range) | std::views::take(n);
+}
+
+template <typename R>
+auto drop_view(R&& range, size_t n) {
+    return std::forward<R>(range) | std::views::drop(n);
+}
+
+
+struct IoSetup {
+    IoSetup() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(15);
+        cerr << fixed << setprecision(15);
+    }
+} iosetup;
 
 const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
 
@@ -498,9 +610,15 @@ struct pair_hash {
         return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
     }
 };
+inline string toLowerCopy(const string &s) {
+    string t = s;
+    transform(t.begin(), t.end(), t.begin(), ::tolower);
+    return t;
+}
+
 
 // ──────────────────────────────────────────────────────────────────────────────
-// modint<MOD>
+// modint<998244353>
 // ──────────────────────────────────────────────────────────────────────────────
 template<ll M>
 struct modint {
@@ -563,10 +681,22 @@ static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
 
+mint floor_sum(ll N)
+{
+	mint res = 0;
+	for(ll i = 1 ; i<=N ;)
+	{
+		ll val = N/i;
+		ll r = N/val;
+		res += mint(val) * mint(r-i+1);
+		i = r+1;
+	}
+	return res;
+}
+
 int main() 
 {
-  
-  
+	
 }
 
 
