@@ -99,48 +99,54 @@ using namespace std;
 #define rfun(name, ret_type, ...) \
     std::function<ret_type(__VA_ARGS__)> name = [&](__VA_ARGS__) -> ret_type
 
-
 //
 #define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
-
 //
 const int dx4[4] = {1, 0, -1, 0}, dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
 const int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 
 // ----------------------------------------------------------------------------------------
+// *** Primitive short aliases ***
 using ll = long long;
 using ld = long double;
 using ull = unsigned long long;
+
+// *** Container/type shortcuts ***
 using vch = vector<char>;
+using vvch = vector<vch>;
 using vvcc = vector<vch>;
 using vll = vector<ll>;
-using pll = pair<ll, ll>;
-using pdd = pair<long double, long double>;
-using pii = pair<int, int>;
 using vvll = vector<vll>;
 using vii = vector<int>;
 using vvii = vector<vii>;
 using vecs = vector<string>;
-using vpii = vector<pair<int, int>>;
+
+// *** Pair shortcuts ***
+using pll = pair<ll,ll>;
+using pdd = pair<ld,ld>;
+using pii = pair<int,int>;
+
+// *** Vector of pairs ***
+using vpii = vector<pii>;
 using vvpii = vector<vpii>;
-using vch = vector<char>;
-using vvch = vector<vector<char>>;
-using vpll = vector<pair<ll, ll>>;
+using vpll = vector<pll>;
+using vvpll = vector<vpll>;
 using vpci = vector<pair<char,int>>;
 using vpcl = vector<pair<char,ll>>;
-using vvpll = vector<vpll>;
+
+// *** Boolean and set containers ***
 using vbl = vector<bool>;
-using vvbl = vector<vector<bool>>;
+using vvbl = vector<vbl>;
 using usetii = unordered_set<int>;
 using usetll = unordered_set<ll>;
 using setii = set<int>;
 using setll = set<ll>;
-using setpll = set<pll>;
-using setpii = set<pii>;
 using setstr = set<string>;
 using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
+
+// *** Stack shortcuts ***
 using stkint = stack<int>;
 using stkll = stack<ll>;
 using stkpii = stack<pii>;
@@ -156,8 +162,7 @@ template<typename T>
 using maxpq = priority_queue<T>;
 template<typename T>
 using minpq = priority_queue<T, vector<T>, greater<T>>;
-
-template <class T> std::vector<T> sort_unique(std::vector<T> vec) { sort(vec.begin(), vec.end()), vec.erase(unique(vec.begin(), vec.end()), vec.end()); return vec;}
+template <class T> std::vector<T> sort_unique(std::vector<T> vec) { sort(vec.begin(), vec.end()), vec.erase(unique(vec.begin(), vec.end()), vec.end()); return vec; }
  
 //scan
 inline void scan() {}
@@ -599,8 +604,13 @@ static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
 
-int main()
-{
+
+int main() {
+    Test 
+    {
+        
+    }
+    return 0;
 }
 
 
@@ -609,22 +619,22 @@ int main()
 
 
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
