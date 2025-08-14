@@ -774,6 +774,12 @@ struct modint {
 static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
+void setIO(string s)
+{
+  freopen((s + ".in").c_str(), "r", stdin);
+  freopen((s + ".out").c_str(), "w", stdout);
+}
+
 
 
 int main() {
