@@ -2,7 +2,7 @@ struct dsu
 {
   vll parent, size;
   ll component_count;
-  ll largest_component;
+  ll max_comp_size;
   
   dsu(ll n)
   {
@@ -10,7 +10,7 @@ struct dsu
     size.assign(n, 1);
     rep(i,n) parent[i] = i;
     component_count=n-1;//for 1th based indexing graphs
-    largest_component=1;
+    max_comp_size=1;
   }
 
   ll leader(ll x)
@@ -27,7 +27,7 @@ struct dsu
     if (size[x] < size[y]) swap(x, y);
     parent[y] = x;
     size[x] += size[y];
-    largest_component=max(largest_component,size[x]);
+    max_comp_size=max(max_comp_size,size[x]);
     component_count--;
     return true;
   }
