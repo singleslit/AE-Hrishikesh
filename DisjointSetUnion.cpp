@@ -9,7 +9,7 @@ struct dsu
     parent.resize(n);
     size.assign(n, 1);
     rep(i,n) parent[i] = i;
-    component_count=n-1;//for 1th based indexing graphs
+    component_count=n;
     max_comp_size=1;
   }
 
