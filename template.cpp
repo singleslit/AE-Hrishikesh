@@ -1,5 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
+struct IoSetup {
+    IoSetup() {
+        cin.tie(nullptr);
+        ios::sync_with_stdio(false);
+        cout << fixed << setprecision(15);
+        cerr << fixed << setprecision(15);
+    }
+} iosetup;
+
+void setIO(string s)
+{
+  freopen((s + ".in").c_str(), "r", stdin);
+  freopen((s + ".out").c_str(), "w", stdout);
+}
 #define overload5(_1,_2,_3,_4,_5,name,...) name
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -221,7 +235,8 @@ inline void in(Head &head, Tail &...tail) {
     in(tail...);
 }
  
-//print
+//print functions
+
 inline void print() { std::cout << ' '; }
 inline void print(const bool &a) { std::cout << a; }
 inline void print(const int &a) { std::cout << a; }
@@ -382,6 +397,11 @@ void __print(const std::tuple<Args...>& t) {
     cout << ")";
 }
 
+// ──────────────────────────────────────────────────────────────────────────
+// Graph Algorithms
+// ──────────────────────────────────────────────────────────────────────────
+
+//shortest path chooser
 static constexpr ll INF = (ll)1e18;
 static constexpr ll NINF = -(ll)1e18;
 static constexpr int INVALID = -1;
@@ -554,6 +574,67 @@ struct shortest_path {
         }
     }
 };
+// Tarjans Algorithm for SCC
+struct SCC
+{
+    ll n,timer=0,compcnt=0;
+    vvll g;
+    vll disc,low,comp;
+    stkll stk;
+    vbl instack;
+    
+    SCC(ll n) : n(n), g(n), disc(n,-1), low(n), comp(n,-1), instack(n,false){}
+    
+    void add_edge(ll u,ll v)
+    {
+        g[u].pb(v);
+    }
+    
+    void dfs(ll u)
+    {
+        disc[u] = low[u] = ++timer;
+        st.push(u);
+        instack[u]=true;
+        
+        each(v,g[u])
+        {
+            if (disc[v]==-1)
+            {
+                dfs(v);
+                chmin(low[u],low[v]);
+            }
+            elif (instack[v])
+            {
+                chmin(low[u],disc[v]);
+            }
+        }
+        
+        if (low[u]==disc[u])
+        {
+            while(true)
+            {
+                ll v = stk.top();stk.pop();
+                instack[v] = false;
+                comp[v] = compcnt;
+                if (v==u) break;
+            }
+            compcnt++;
+        }
+    }
+    
+    void run()
+    {
+        rep(i,0,n)
+        {
+            if (disc[i]==-1) dfs(i);
+        }
+    }
+};
+
+
+// ──────────────────────────────────────────────────────────────────────────
+// Coding Shortcuts
+// ──────────────────────────────────────────────────────────────────────────
 
 //redefined find template to give -1 if key not found.
 template<typename Container, typename Key>
@@ -563,27 +644,57 @@ inline int find_idx(const Container &c, const Key &key) {
     return int(std::distance(std::begin(c), it));
 }
 
-template<typename T, typename Func>
-T bitwise_bs(T start, int maxpow, Func works, bool maximise = true) {
-    T cur = start;
-    for (T step = (1LL << maxpow); step > 0; step >>= 1) {
-        if (maximise) {
-            if (works(cur + step)) cur += step;
-        } else {
-            if (works(cur - step)) cur -= step;
-        }
-    }
-    return cur;
+//template to slice a vector
+template <typename T>
+std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
+    if (l < 0) l += v.size();  // Handle negative indexing like Python
+    if (r < 0) r += v.size();
+    l = std::max(0, l);
+    r = std::min((int)v.size(), r);
+    if (l > r) l = r;  // Avoid invalid range
+    return std::vector<T>(v.begin() + l, v.begin() + r);
 }
 
-struct IoSetup {
-    IoSetup() {
-        cin.tie(nullptr);
-        ios::sync_with_stdio(false);
-        cout << fixed << setprecision(15);
-        cerr << fixed << setprecision(15);
+vll pqtop(priority_queue<ll>pq,ll k)
+{
+  vll res;
+  while (k-- && !pq.empty()) {
+    res.pb(pq.top());
+    pq.pop();
+  }
+  return res;
+}
+
+
+struct pair_hash {
+    size_t operator()(const pll& p) const {
+        return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
     }
-} iosetup;
+};
+inline string toLowerCopy(const string &s) {
+    string t = s;
+    transform(t.begin(), t.end(), t.begin(), ::tolower);
+    return t;
+}
+
+
+// ──────────────────────────────────────────────────────────────────────────
+// Bitwise BSTA
+// ──────────────────────────────────────────────────────────────────────────
+
+template <typename F>
+ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
+  if (check_ok) assert(check(ok));
+  while (abs(ok - ng) > 1) {
+    ll x = (ok + ng) / 2;
+    (check(x) ? ok : ng) = x;
+  }
+  return ok;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Math Algos
+// ──────────────────────────────────────────────────────────────────────────
 
 const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
 
@@ -637,6 +748,18 @@ ll power(ll a, ll b)
     return result;
 }
 
+vll all_divisors(ll n) {
+    vll divs;
+    for (ll i = 1; i * i <= n; ++i) {
+        if (n % i == 0) {
+            divs.push_back(i);
+            if (i != n / i) divs.push_back(n / i);
+        }
+    }
+    sort(all(divs));
+    return divs;
+}
+
 string to_base(ll a,ll b)
 {
   if (b<2 || b>36) throw invalid_argument("base out of range");
@@ -651,65 +774,6 @@ string to_base(ll a,ll b)
     reverse(all(s));
     return s;
 }
-
-template <typename T>
-std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
-    if (l < 0) l += v.size();  // Handle negative indexing like Python
-    if (r < 0) r += v.size();
-    l = std::max(0, l);
-    r = std::min((int)v.size(), r);
-    if (l > r) l = r;  // Avoid invalid range
-    return std::vector<T>(v.begin() + l, v.begin() + r);
-}
-
-
-vll all_divisors(ll n) {
-    vll divs;
-    for (ll i = 1; i * i <= n; ++i) {
-        if (n % i == 0) {
-            divs.push_back(i);
-            if (i != n / i) divs.push_back(n / i);
-        }
-    }
-    sort(all(divs));
-    return divs;
-}
-
-vll pqtop(priority_queue<ll>pq,ll k)
-{
-  vll res;
-  while (k-- && !pq.empty()) {
-    res.pb(pq.top());
-    pq.pop();
-  }
-  return res;
-}
-
-//Classic template
-
-template <typename F>
-ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
-  if (check_ok) assert(check(ok));
-  while (abs(ok - ng) > 1) {
-    ll x = (ok + ng) / 2;
-    (check(x) ? ok : ng) = x;
-  }
-  return ok;
-}
-
-
-
-struct pair_hash {
-    size_t operator()(const pll& p) const {
-        return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
-    }
-};
-inline string toLowerCopy(const string &s) {
-    string t = s;
-    transform(t.begin(), t.end(), t.begin(), ::tolower);
-    return t;
-}
-
 
 // ──────────────────────────────────────────────────────────────────────────────
 // modint<998244353>
@@ -774,11 +838,7 @@ struct modint {
 static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
-void setIO(string s)
-{
-  freopen((s + ".in").c_str(), "r", stdin);
-  freopen((s + ".out").c_str(), "w", stdout);
-}
+
 
 
 
