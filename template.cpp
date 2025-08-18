@@ -551,7 +551,7 @@ struct SCC
     void dfs(ll u)
     {
         disc[u] = low[u] = ++timer;
-        st.push(u);
+        stk.push(u);
         instack[u]=true;
         
         each(v,g[u])
@@ -834,12 +834,9 @@ struct modint {
 static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
 
-int main() {
-    Test 
-    {
-        
-    }
-    return 0;
+int main() 
+{
+    
 }
 
 
