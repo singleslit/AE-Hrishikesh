@@ -589,13 +589,13 @@ struct SCC
     }
 };
 // DSU Algorithm
-struct dsu
+struct DSU
 {
   vll parent, size;
   ll component_count;
   ll max_comp_size;
   
-  dsu(ll n)
+  DSU(ll n)
   {
     parent.resize(n);
     size.assign(n, 1);
