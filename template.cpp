@@ -112,20 +112,17 @@ void setIO(string s)
 //recursion macros
 #define rfun(name, ret_type, ...) \
     std::function<ret_type(__VA_ARGS__)> name = [&](__VA_ARGS__) -> ret_type
-
 //
 #define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
 //
 const int dx4[4] = {1, 0, -1, 0}, dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
 const int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
-
 // ----------------------------------------------------------------------------------------
 // *** Primitive short aliases ***
 using ll = long long;
 using ld = long double;
 using ull = unsigned long long;
-
 // *** Container/type shortcuts ***
 using vch = vector<char>;
 using vvch = vector<vch>;
@@ -135,12 +132,10 @@ using vvll = vector<vll>;
 using vii = vector<int>;
 using vvii = vector<vii>;
 using vecs = vector<string>;
-
 // *** Pair shortcuts ***
 using pll = pair<ll,ll>;
 using pdd = pair<ld,ld>;
 using pii = pair<int,int>;
-
 // *** Vector of pairs ***
 using vpii = vector<pii>;
 using vvpii = vector<vpii>;
@@ -148,7 +143,6 @@ using vpll = vector<pll>;
 using vvpll = vector<vpll>;
 using vpci = vector<pair<char,int>>;
 using vpcl = vector<pair<char,ll>>;
-
 // *** Boolean and set containers ***
 using vbl = vector<bool>;
 using vvbl = vector<vbl>;
@@ -159,7 +153,6 @@ using setll = set<ll>;
 using setstr = set<string>;
 using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
-
 // *** Stack shortcuts ***
 using stkint = stack<int>;
 using stkll = stack<ll>;
@@ -175,7 +168,6 @@ using maxpq = priority_queue<T>;
 template<typename T>
 using minpq = priority_queue<T, vector<T>, greater<T>>;
 template <class T> std::vector<T> sort_unique(std::vector<T> vec) { sort(vec.begin(), vec.end()), vec.erase(unique(vec.begin(), vec.end()), vec.end()); return vec; }
- 
 //scan
 inline void scan() {}
 inline void scan(int &a) { std::cin >> a; }
@@ -187,13 +179,7 @@ inline void scan(char &a) { std::cin >> a; }
 inline void scan(float &a) { std::cin >> a; }
 inline void scan(double &a) { std::cin >> a; }
 inline void scan(long double &a) { std::cin >> a; }
-inline void scan(std::vector<bool> &vec) {
-    for (size_t i = 0; i < vec.size(); i++) {
-        int a;
-        scan(a);
-        vec[i] = a;
-    }
-}
+inline void scan(std::vector<bool> &vec) {for (size_t i = 0; i < vec.size(); i++) { int a;scan(a);vec[i] = a;}}
 inline void scan(std::string &a) { std::cin >> a; }
 template <class T>
 inline void scan(std::vector<T> &vec);
@@ -204,39 +190,24 @@ inline void scan(std::pair<T, L> &p);
 template <class T, size_t size>
 inline void scan(T (&vec)[size]);
 template <class T>
-inline void scan(std::vector<T> &vec) {
-    for (auto &i : vec) scan(i);
-}
+inline void scan(std::vector<T> &vec) {for (auto &i : vec) scan(i);}
 template <class T>
-inline void scan(std::deque<T> &vec) {
-    for (auto &i : vec) scan(i);
-}
+inline void scan(std::deque<T> &vec) {for (auto &i : vec) scan(i);}
 template <class T, size_t size>
-inline void scan(std::array<T, size> &vec) {
-    for (auto &i : vec) scan(i);
-}
+inline void scan(std::array<T, size> &vec) {for (auto &i : vec) scan(i);}
 template <class T, class L>
-inline void scan(std::pair<T, L> &p) {
-    scan(p.first);
-    scan(p.second);
-}
+inline void scan(std::pair<T, L> &p) {scan(p.first);scan(p.second);}
 template <class T, size_t size>
-inline void scan(T (&vec)[size]) {
-    for (auto &i : vec) scan(i);
-}
+inline void scan(T (&vec)[size]) {for (auto &i : vec) scan(i);}
 template <class T>
-inline void scan(T &a) {
-    std::cin >> a;
-}
+inline void scan(T &a) {std::cin >> a;}
 inline void in() {}
 template <class Head, class... Tail>
 inline void in(Head &head, Tail &...tail) {
     scan(head);
     in(tail...);
 }
- 
 //print functions
-
 inline void print() { std::cout << ' '; }
 inline void print(const bool &a) { std::cout << a; }
 inline void print(const int &a) { std::cout << a; }
@@ -249,9 +220,7 @@ inline void print(const char a[]) { std::cout << a; }
 inline void print(const float &a) { std::cout << a; }
 inline void print(const double &a) { std::cout << a; }
 inline void print(const long double &a) { std::cout << a; }
-inline void print(const std::string &a) {
-    for (auto &&i : a) print(i);
-}
+inline void print(const std::string &a) {for (auto &&i : a) print(i);}
 template <class T>
 inline void print(const std::vector<T> &vec);
 template <class T, size_t size>
@@ -279,7 +248,6 @@ inline void print(const std::set<T>& s) {
         print(*it);
     }
 }
-
 template <class T>
 inline void print(const std::deque<T> &vec) {
     if (vec.empty()) return;
@@ -327,7 +295,6 @@ inline void out(const Head &head, const Tail &...tail) {
     std::cout << ' ';
     out(tail...);
 }
-
 template<typename T>
 void __print(const T &x) { cout << x; }
 
@@ -335,7 +302,6 @@ template<typename T, typename V>
 void __print(const pair<T, V> &x) {
     cout << "{"; __print(x.first); cout << ", "; __print(x.second); cout << "}";
 }
-
 template<typename T>
 void __print(const vector<T> &v) {
     cout << "[";
@@ -345,7 +311,6 @@ void __print(const vector<T> &v) {
     }
     cout << "]";
 }
-
 template<typename T>
 void __print(const set<T> &v) {
     cout << "{";
@@ -357,7 +322,6 @@ void __print(const set<T> &v) {
     }
     cout << "}";
 }
-
 template<typename T>
 void __print(const multiset<T> &v) { __print(set<T>(v.begin(), v.end())); }
 
@@ -372,15 +336,11 @@ void __print(const map<K, V> &v) {
     }
     cout << "}";
 }
-
 template<typename T>
 void __print(const unordered_set<T> &v) { __print(set<T>(v.begin(), v.end())); }
-
 template<typename K, typename V>
 void __print(const unordered_map<K, V> &v) { __print(map<K, V>(v.begin(), v.end())); }
-
 void _print() { cout << endl; }
-
 template<typename T, typename... V>
 void _print(T t, V... v) {
     __print(t);
@@ -396,11 +356,9 @@ void __print(const std::tuple<Args...>& t) {
     }, t);
     cout << ")";
 }
-
 // ──────────────────────────────────────────────────────────────────────────
 // Graph Algorithms
 // ──────────────────────────────────────────────────────────────────────────
-
 //shortest path chooser
 static constexpr ll INF = (ll)1e18;
 static constexpr ll NINF = -(ll)1e18;
@@ -630,7 +588,6 @@ struct SCC
         }
     }
 };
-
 // DSU Algorithm
 struct dsu
 {
@@ -677,11 +634,9 @@ struct dsu
   }
   
 };
-
 // ──────────────────────────────────────────────────────────────────────────
 // Coding Shortcuts
 // ──────────────────────────────────────────────────────────────────────────
-
 //redefined find template to give -1 if key not found.
 template<typename Container, typename Key>
 inline int find_idx(const Container &c, const Key &key) {
@@ -689,7 +644,6 @@ inline int find_idx(const Container &c, const Key &key) {
     if (it == std::end(c)) return -1;
     return int(std::distance(std::begin(c), it));
 }
-
 //template to slice a vector
 template <typename T>
 std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
@@ -700,7 +654,7 @@ std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
     if (l > r) l = r;  // Avoid invalid range
     return std::vector<T>(v.begin() + l, v.begin() + r);
 }
-
+//pq top k elem
 vll pqtop(priority_queue<ll>pq,ll k)
 {
   vll res;
@@ -710,8 +664,7 @@ vll pqtop(priority_queue<ll>pq,ll k)
   }
   return res;
 }
-
-
+// hashing for pair in unordered map
 struct pair_hash {
     size_t operator()(const pll& p) const {
         return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
@@ -722,12 +675,9 @@ inline string toLowerCopy(const string &s) {
     transform(t.begin(), t.end(), t.begin(), ::tolower);
     return t;
 }
-
-
 // ──────────────────────────────────────────────────────────────────────────
 // Bitwise BSTA
 // ──────────────────────────────────────────────────────────────────────────
-
 template <typename F>
 ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
   if (check_ok) assert(check(ok));
@@ -883,10 +833,6 @@ struct modint {
 
 static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
-
-
-
-
 
 int main() {
     Test 
