@@ -102,12 +102,13 @@ void setIO(string s)
 //character macros
 #define ctoi(c) ((c) - '0')
 // ----------------------------------------------------------------------------------------
-//bit macros
+//bit macros & functions
 #define bit(x, i) (((x) >> (i)) & 1)
 #define llsetbit(x) __builtin_popcountll(x)
 #define setbit(x) __builtin_popcount(x)
 #define lsb(x) ((x) & -(x))
 #define msb(x) ((x) == 0 ? -1 : 63 - __builtin_clzll(x))
+//bool isPower2 = (L & (L-1)) == 0;
 // ----------------------------------------------------------------------------------------
 //recursion macros
 #define rfun(name, ret_type, ...) \
