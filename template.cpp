@@ -116,7 +116,7 @@ void setIO(string s)
 //
 #define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
 //
-const int dx4[4] = {1, 0, -1, 0}, 
+const int dx4[4] = {1, 0, -1, 0};
 const int dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
 const int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
