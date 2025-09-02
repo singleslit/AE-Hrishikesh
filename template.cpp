@@ -64,6 +64,8 @@ void setIO(string s)
 #define svec(type, n, v) vector<type> v(n); scan(v)
 #define s1vll(n,v) vll v(n + 1); rep(i, 1, n + 1) cin >> v[i];
 #define s1vii(n,v) vii v(n + 1); rep(i, 1, n + 1) cin >> v[i];
+#define UNIQUE(x) \
+  sort(all(x)), x.erase(unique(all(x)), x.end()), x.shrink_to_fit()
 // ----------------------------------------------------------------------------------------
 #define FLUSH cin.ignore(numeric_limits<streamsize>::max(), '\n') //Forget whatever is there in the current line and go to the next line. Use cin.ignore() for ignorning the very next character.
 #define avoidBlanks while (cin.peek() == '\n') cin.ignore()
@@ -82,14 +84,12 @@ void setIO(string s)
 #define ins(v,idx, value) (v).insert((v).begin() + (idx), value)
 //for inserting an elem at an index in the vector
 #define voc(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
-#define vjoin(v1, v2) (v1.insert(v1.end(), v2.begin(), v2.end()))
 #define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
 #define rotater(v, k) rotate((v).rbegin(), (v).rbegin() + ((k) % (v).size()), (v).rend())
 // ----------------------------------------------------------------------------------------
 //math macros
 #define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
 #define digitcount(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
-#define cdiv(a, b) (((a) + (b) - 1) / (b))
 // ----------------------------------------------------------------------------------------
 //string macros
 #define str(x) to_string(x)
@@ -713,6 +713,27 @@ ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
 // ──────────────────────────────────────────────────────────────────────────
 // Math Algos
 // ──────────────────────────────────────────────────────────────────────────
+//floor div template
+template <typename T>
+T floor(T a, T b) {
+  return a / b - (a % b && (a ^ b) < 0);
+}
+//ceil div template
+template <typename T>
+T ceil(T x, T y) {
+  return floor(x + y - 1, y);
+}
+//balanced modulo or Euclidean modulo (out normal modulo)
+template <typename T>
+T bmod(T x, T y) {
+  return x - y * floor(x, y);
+}
+// gives a quotient reminder pair for a div
+template <typename T>
+pair<T, T> divmod(T x, T y) {
+  T q = floor(x, y);
+  return {q, x - q * y};
+}
 
 const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
 
@@ -792,6 +813,16 @@ string to_base(ll a,ll b)
     reverse(all(s));
     return s;
 }
+// ──────────────────────────────────────────────────────────────────────────────
+// Vector Tricks
+// ──────────────────────────────────────────────────────────────────────────────
+// vector concatanation -> concat(a,b,c) expands a.
+template <typename T, typename... Vectors>
+void concat(vc<T> &first, const Vectors &...others) {
+  vc<T> &res = first;
+  (res.insert(res.end(), others.begin(), others.end()), ...);
+}
+
 
 // ──────────────────────────────────────────────────────────────────────────────
 // modint<998244353>
