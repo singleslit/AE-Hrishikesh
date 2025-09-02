@@ -8,7 +8,6 @@ struct IoSetup {
         cerr << fixed << setprecision(15);
     }
 } iosetup;
-
 void setIO(string s)
 {
   freopen((s + ".in").c_str(), "r", stdin);
@@ -102,12 +101,6 @@ void setIO(string s)
 //character macros
 #define ctoi(c) ((c) - '0')
 // ----------------------------------------------------------------------------------------
-//bit macros & functions
-#define bit(x, i) (((x) >> (i)) & 1)
-#define llsetbit(x) __builtin_popcountll(x)
-#define setbit(x) __builtin_popcount(x)
-#define lsb(x) ((x) & -(x))
-#define msb(x) ((x) == 0 ? -1 : 63 - __builtin_clzll(x))
 //bool isPower2 = (L & (L-1)) == 0;
 // ----------------------------------------------------------------------------------------
 //recursion macros
@@ -364,6 +357,41 @@ void __print(const std::tuple<Args...>& t) {
 // ──────────────────────────────────────────────────────────────────────────
 // Bitwise functions
 // ──────────────────────────────────────────────────────────────────────────
+//for fenwick trees
+template <typename T>
+inline T lsb_mask(T x) { return x & -x; }
+
+// population count
+inline int popcnt(int x)        { return __builtin_popcount(x); }
+inline int popcnt(unsigned x)   { return __builtin_popcount(x); }
+inline int popcnt(ll x)         { return __builtin_popcountll(x); }
+inline int popcnt(ull x)        { return __builtin_popcountll(x); }
+
+// parity sign of popcount  (returns -1 if odd, +1 if even)
+inline int popcnt_sgn(int x)      { return (__builtin_parity(unsigned(x)) & 1 ? -1 : 1); }
+inline int popcnt_sgn(unsigned x) { return (__builtin_parity(x) & 1 ? -1 : 1); }
+inline int popcnt_sgn(ll x)       { return (__builtin_parityll(x) & 1 ? -1 : 1); }
+inline int popcnt_sgn(ull x)      { return (__builtin_parityll(x) & 1 ? -1 : 1); }
+
+// index of most significant bit (0-indexed), -1 if x == 0
+inline int topbit(int x)        { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
+inline int topbit(unsigned x)   { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
+inline int topbit(ll x)         { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+inline int topbit(ull x)        { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+
+// index of least significant bit (0-indexed), -1 if x == 0
+inline int lowbit(int x)        { return (x == 0 ? -1 : __builtin_ctz(x)); }
+inline int lowbit(unsigned x)   { return (x == 0 ? -1 : __builtin_ctz(x)); }
+inline int lowbit(ll x)         { return (x == 0 ? -1 : __builtin_ctzll(x)); }
+inline int lowbit(ull x)        { return (x == 0 ? -1 : __builtin_ctzll(x)); }
+
+// kth bit helpers
+template <typename T>
+inline T kth_bit(int k) { return T(1) << k; }
+
+template <typename T>
+inline bool has_kth_bit(T x, int k) { return (x >> k) & 1; }
+
 long long nextPow2(long long x) {
     if (x <= 0) return 1;
     return 1LL << (msb(x) + 1);  // always the next one
