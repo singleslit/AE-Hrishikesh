@@ -394,7 +394,7 @@ inline bool has_kth_bit(T x, int k) { return (x >> k) & 1; }
 
 long long nextPow2(long long x) {
     if (x <= 0) return 1;
-    return 1LL << (msb(x) + 1);  // always the next one
+    return 1LL << (topbit(x) + 1);  // always the next power of 2
 }
 // ──────────────────────────────────────────────────────────────────────────
 // Graph Algorithms
@@ -754,8 +754,8 @@ V<T> suffix_max(const V<U> &a, int off = 1) {
 
 // vector concatanation -> concat(a,b,c) expands a.
 template <typename T, typename... Vectors>
-void concat(vc<T> &first, const Vectors &...others) {
-  vc<T> &res = first;
+void concat(V<T> &first, const Vectors &...others) {
+  V<T> &res = first;
   (res.insert(res.end(), others.begin(), others.end()), ...);
 }
 
@@ -943,29 +943,3 @@ int main()
 {
     
 }
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
