@@ -725,6 +725,41 @@ V<T> cumsum(const V<U> &a, int off = 1) {
     return b;
 }
 
+template <typename T, typename U>
+V<T> cummax(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1, numeric_limits<T>::lowest());
+    rep(i, n) b[i + 1] = max(b[i], T(a[i]));
+    if (off == 0) b.erase(b.begin());
+    return b;
+}
+
+template <typename T, typename U>
+V<T> suffix_sum(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1, 0); // last element b[n] = 0
+    rrep(i, n) b[i] = b[i + 1] + T(a[i]);
+    if (off == 0) b.pop_back();
+    return b;
+}
+
+template <typename T, typename U>
+V<T> suffix_max(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1, numeric_limits<T>::lowest()); // last element = lowest value
+    rrep(i, n) b[i] = max(T(a[i]), b[i + 1]);
+    if (off == 0) b.pop_back();
+    return b;
+}
+
+// vector concatanation -> concat(a,b,c) expands a.
+template <typename T, typename... Vectors>
+void concat(vc<T> &first, const Vectors &...others) {
+  vc<T> &res = first;
+  (res.insert(res.end(), others.begin(), others.end()), ...);
+}
+
+
 // ──────────────────────────────────────────────────────────────────────────
 // Bitwise BSTA
 // ──────────────────────────────────────────────────────────────────────────
@@ -841,17 +876,6 @@ string to_base(ll a,ll b)
     reverse(all(s));
     return s;
 }
-// ──────────────────────────────────────────────────────────────────────────────
-// Vector Tricks
-// ──────────────────────────────────────────────────────────────────────────────
-// vector concatanation -> concat(a,b,c) expands a.
-template <typename T, typename... Vectors>
-void concat(vc<T> &first, const Vectors &...others) {
-  vc<T> &res = first;
-  (res.insert(res.end(), others.begin(), others.end()), ...);
-}
-
-
 // ──────────────────────────────────────────────────────────────────────────────
 // modint<998244353>
 // ──────────────────────────────────────────────────────────────────────────────
