@@ -687,6 +687,16 @@ inline string toLowerCopy(const string &s) {
     transform(t.begin(), t.end(), t.begin(), ::tolower);
     return t;
 }
+// prefix sum template
+template <typename T, typename U>
+V<T> cumsum(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1);
+    rep(i, n) b[i + 1] = b[i] + a[i];
+    if (off == 0) b.erase(b.begin());
+    return b;
+}
+
 // ──────────────────────────────────────────────────────────────────────────
 // Bitwise BSTA
 // ──────────────────────────────────────────────────────────────────────────
