@@ -399,6 +399,27 @@ long long nextPow2(long long x) {
 // ──────────────────────────────────────────────────────────────────────────
 // Graph Algorithms
 // ──────────────────────────────────────────────────────────────────────────
+//Quick Graph Builder:
+vvll read_undirected_graph(ll n, ll m, ll base=1){
+    vvll adj(n);
+    for(ll i=0,u,v; i<m; ++i){
+        in(u,v);
+        u-=base,v-=base;
+        adj[u].pb(v),adj[v].pb(u);
+    }
+    return adj;
+}
+
+vvll read_directed_graph(ll n, ll m, ll base=1){
+    vvll adj(n);
+    for(ll i=0,u,v; i<m; ++i){
+        in(u,v);
+        u-=base,v-=base;
+        adj[u].pb(v);
+    }
+    return adj;
+}
+
 //shortest path chooser
 static constexpr ll INF = (ll)1e18;
 static constexpr ll NINF = -(ll)1e18;
