@@ -420,6 +420,20 @@ vvll read_directed_graph(ll n, ll m, ll base=1){
     return adj;
 }
 
+template <typename T>
+V<V<T>> readGrid(int H, int W, bool withSpaces = false) {
+    V<V<T>> grid(H, V<T>(W));
+    for (int i = 0; i < H; i++) {
+        if (is_same<T, char>::value && !withSpaces) {
+            string row; cin >> row;
+            for (int j = 0; j < W; j++) grid[i][j] = row[j];
+        } else {
+            for (int j = 0; j < W; j++) cin >> grid[i][j];
+        }
+    }
+    return grid;
+}
+
 //shortest path chooser
 static constexpr ll INF = (ll)1e18;
 static constexpr ll NINF = -(ll)1e18;
