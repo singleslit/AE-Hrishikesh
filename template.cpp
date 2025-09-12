@@ -770,7 +770,7 @@ V<T> cummax(const V<U> &a, int off = 1) {
 }
 
 template <typename T, typename U>
-V<T> suffix_sum(const V<U> &a, int off = 1) {
+V<T> suffsum(const V<U> &a, int off = 1) {
     int n = len(a);
     V<T> b(n + 1, 0); // last element b[n] = 0
     rrep(i, n) b[i] = b[i + 1] + T(a[i]);
@@ -779,7 +779,7 @@ V<T> suffix_sum(const V<U> &a, int off = 1) {
 }
 
 template <typename T, typename U>
-V<T> suffix_max(const V<U> &a, int off = 1) {
+V<T> suffmax(const V<U> &a, int off = 1) {
     int n = len(a);
     V<T> b(n + 1, numeric_limits<T>::lowest()); // last element = lowest value
     rrep(i, n) b[i] = max(T(a[i]), b[i + 1]);
