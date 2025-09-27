@@ -148,6 +148,7 @@ using usetii = unordered_set<int>;
 using usetll = unordered_set<ll>;
 using setii = set<int>;
 using setll = set<ll>;
+using setpll = set<pll>;
 using setstr = set<string>;
 using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
