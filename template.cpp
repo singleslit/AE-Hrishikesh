@@ -42,15 +42,12 @@ void setIO(string s)
 #define rall(...) overload3(__VA_ARGS__,rall3,rall2,rall1)(__VA_ARGS__)
 #define len(x) (int)(x).size()
 #define sum(...) accumulate(all(__VA_ARGS__),0LL)
-#define uniq(vec) sort(all(vec)); vec.erase(unique(all(vec)),end(vec))
 #define rev(vec) reverse(vec.begin(), vec.end())
 #define elif else if
 #define pb push_back
 #define eb emplace_back
 #define lexi lexicographical_compare
 #define Test int t; cin >> t; while(t--)
-#define YES cout<<"Yes"<<endl
-#define NO cout<<"No"<<endl
 #define dbg(...) cout << #__VA_ARGS__ << " = ", _print(__VA_ARGS__)
 #define sint(...) int __VA_ARGS__; in(__VA_ARGS__)
 #define sll(...) ll __VA_ARGS__; in(__VA_ARGS__)
@@ -82,9 +79,6 @@ void setIO(string s)
 //vector macros
 #define ins(v,idx, value) (v).insert((v).begin() + (idx), value)
 //for inserting an elem at an index in the vector
-#define voc(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
-#define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
-#define rotater(v, k) rotate((v).rbegin(), (v).rbegin() + ((k) % (v).size()), (v).rend())
 // ----------------------------------------------------------------------------------------
 //math macros
 #define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
@@ -166,7 +160,6 @@ template<typename T>
 using maxpq = priority_queue<T>;
 template<typename T>
 using minpq = priority_queue<T, vector<T>, greater<T>>;
-template <class T> std::vector<T> sort_unique(std::vector<T> vec) { sort(vec.begin(), vec.end()), vec.erase(unique(vec.begin(), vec.end()), vec.end()); return vec; }
 //scan
 inline void scan() {}
 inline void scan(int &a) { std::cin >> a; }
@@ -435,235 +428,6 @@ V<V<T>> readGrid(int H, int W, bool withSpaces = false) {
     return grid;
 }
 
-//shortest path chooser
-static constexpr ll INF = (ll)1e18;
-static constexpr ll NINF = -(ll)1e18;
-static constexpr int INVALID = -1;
-
-template<typename T, T INFV = numeric_limits<T>::max()/2, int INV = INVALID>
-struct shortest_path {
-    int V, E;
-    bool single_positive_weight;
-    T wmin, wmax;
-
-    vpii tos;
-    vii head;
-    vector<tuple<int,int,T>> edges;
-
-    vll dist;
-    vii prev;
-
-    shortest_path(int _V = 0)
-        : V(_V), E(0), single_positive_weight(true), wmin(0), wmax(0) {}
-
-    void add_edge(int u, int v, T w) {
-        assert(u >= 0 && u < V && v >= 0 && v < V);
-        edges.pb({u, v, w});
-        ++E;
-        if (w > 0 && wmax > 0 && wmax != w) single_positive_weight = false;
-        chmin(wmin, w);
-        chmax(wmax, w);
-    }
-    void add_bi_edge(int u, int v, T w) { add_edge(u,v,w); add_edge(v,u,w); }
-
-    void build_() {
-        if (len(tos)==E && len(head)==V+1) return;
-        tos.assign(E, {});
-        head.assign(V+1,0);
-        each(e, edges) ++head[get<0>(e)+1];
-        rep(i,V) head[i+1] += head[i];
-        auto cur = head;
-        each(e, edges) {
-            int u,v; T w; tie(u,v,w)=e;
-            tos[cur[u]++] = {v,(int)w};
-        }
-    }
-
-    template<class Heap = priority_queue<pair<T,int>, vector<pair<T,int>>, greater<>>> 
-    void dijkstra(int s, int t = INV) {
-        build_();
-        dist.assign(V, INFV); prev.assign(V, INV);
-        dist[s]=0;
-        Heap pq; pq.emplace(0,s);
-        while(!pq.empty()){
-            auto [d,u]=pq.top(); pq.pop();
-            if(u==t) return;
-            if(dist[u]<d) continue;
-            rep(e,head[u],head[u+1]){
-                auto [v,w]=tos[e]; T nd=d+w;
-                if(dist[v]>nd){ dist[v]=nd; prev[v]=u; pq.emplace(nd,v); }
-            }
-        }
-    }
-
-    void solve(int s, int t = INV) {
-        if(wmin>=0) {
-            if(single_positive_weight) zero_one_bfs(s,t);
-            else if(wmax<=10) dial(s,t);
-            else if((ll)V*V < (E<<4)) dijkstra_vquad(s,t);
-            else dijkstra(s,t);
-        } else bellman_ford(s,V);
-    }
-
-    vector<int> retrieve_path(int g) const {
-        if(dist[g]==INFV) return {};
-        vector<int> p;
-        for(int u=g; u!=INV; u=prev[u]) p.pb(u);
-        reverse(all(p));
-        return p;
-    }
-
-    void dijkstra_vquad(int s, int t = INV) {
-        build_();
-        dist.assign(V, INFV); prev.assign(V, INV);
-        dist[s]=0;
-        vbl used(V,false);
-        while (true) {
-            int u = INV; T best = INFV;
-            rep(i,V) if(!used[i] && dist[i]<best){ u=i; best=dist[i]; }
-            if(u==INV || u==t) break;
-            used[u]=true;
-            rep(e,head[u],head[u+1]){
-                auto [v,w]=tos[e];
-                if(dist[v]>dist[u]+w){ dist[v]=dist[u]+w; prev[v]=u; }
-            }
-        }
-    }
-
-    bool bellman_ford(int s, int nb) {
-        build_();
-        dist.assign(V, INFV); prev.assign(V, INV);
-        dist[s]=0;
-        rep(loop,nb) {
-            bool upd=false;
-            rep(u,V) if(dist[u]!=INFV) rep(e,head[u],head[u+1]){
-                auto [v,w]=tos[e]; T nd=dist[u]+w;
-                if(dist[v]>nd){ dist[v]=nd; prev[v]=u; upd=true; }
-            }
-            if(!upd) return true;
-        }
-        return false;
-    }
-
-    void spfa(int s) {
-        build_();
-        dist.assign(V, INFV); prev.assign(V, INV);
-        dist[s]=0;
-        deque<int> q; vbl inq(V,false);
-        q.pb(s); inq[s]=true;
-        while(!q.empty()){
-            int u=q.front(); q.pop_front(); inq[u]=false;
-            rep(e,head[u],head[u+1]){
-                auto [v,w]=tos[e]; T nd=dist[u]+w;
-                if(dist[v]>nd){ dist[v]=nd; prev[v]=u;
-                    if(!inq[v]){
-                        if(!q.empty() && nd<dist[q.front()]) q.push_front(v);
-                        else q.pb(v);
-                        inq[v]=true;
-                    }
-                }
-            }
-        }
-    }
-
-    void zero_one_bfs(int s, int t = INV) {
-        build_();
-        dist.assign(V, INFV); prev.assign(V, INV);
-        dist[s]=0;
-        vector<int> q(4*V);
-        int l=2*V, r=2*V;
-        q[r++]=s;
-        while(l<r){
-            int u=q[l++]; if(u==t) return;
-            rep(e,head[u],head[u+1]){
-                auto [v,w]=tos[e]; T nd=dist[u]+w;
-                if(dist[v]>nd){ dist[v]=nd; prev[v]=u;
-                    if(w) q[r++]=v; else q[--l]=v;
-                }
-            }
-        }
-    }
-
-    void dial(int s, int t = INV) {
-        build_();
-        dist.assign(V, INFV); prev.assign(V, INV);
-        dist[s]=0;
-        vector<vector<pair<int,T>>> buck(wmax+1);
-        buck[0].eb(s,0);
-        int inq_cnt=1;
-        for(int cur=0; inq_cnt; ++cur){
-            if(cur>=(int)buck.size()) cur=0;
-            while(!buck[cur].empty()){
-                auto [u,du]=buck[cur].back(); buck[cur].pop_back(); --inq_cnt;
-                if(u==t) return;
-                if(dist[u]<du) continue;
-                rep(e,head[u],head[u+1]){
-                    auto [v,w]=tos[e]; T nd=du+w;
-                    if(dist[v]>nd){ dist[v]=nd; prev[v]=u;
-                        int idx=(cur+w)%(wmax+1);
-                        buck[idx].eb(v,nd); ++inq_cnt;
-                    }
-                }
-            }
-        }
-    }
-};
-// Tarjans Algorithm for SCC
-struct SCC
-{
-    ll n,timer=0,compcnt=0;
-    vvll g;
-    vll disc,low,comp;
-    stkll stk;
-    vbl instack;
-    
-    SCC(ll n) : n(n), g(n), disc(n,-1), low(n), comp(n,-1), instack(n,false){}
-    
-    void add_edge(ll u,ll v)
-    {
-        g[u].pb(v);
-    }
-    
-    void dfs(ll u)
-    {
-        disc[u] = low[u] = ++timer;
-        stk.push(u);
-        instack[u]=true;
-        
-        each(v,g[u])
-        {
-            if (disc[v]==-1)
-            {
-                dfs(v);
-                chmin(low[u],low[v]);
-            }
-            elif (instack[v])
-            {
-                chmin(low[u],disc[v]);
-            }
-        }
-        
-        if (low[u]==disc[u])
-        {
-            while(true)
-            {
-                ll v = stk.top();stk.pop();
-                instack[v] = false;
-                comp[v] = compcnt;
-                if (v==u) break;
-            }
-            compcnt++;
-        }
-    }
-    
-    void run()
-    {
-        rep(i,0,n)
-        {
-            if (disc[i]==-1) dfs(i);
-        }
-    }
-};
 // DSU Algorithm
 struct DSU
 {
@@ -713,23 +477,6 @@ struct DSU
 // ──────────────────────────────────────────────────────────────────────────
 // Coding Shortcuts
 // ──────────────────────────────────────────────────────────────────────────
-//redefined find template to give -1 if key not found.
-template<typename Container, typename Key>
-inline int find_idx(const Container &c, const Key &key) {
-    auto it = std::find(std::begin(c), std::end(c), key);
-    if (it == std::end(c)) return -1;
-    return int(std::distance(std::begin(c), it));
-}
-//template to slice a vector
-template <typename T>
-std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
-    if (l < 0) l += v.size();  // Handle negative indexing like Python
-    if (r < 0) r += v.size();
-    l = std::max(0, l);
-    r = std::min((int)v.size(), r);
-    if (l > r) l = r;  // Avoid invalid range
-    return std::vector<T>(v.begin() + l, v.begin() + r);
-}
 //pq top k elem
 vll pqtop(priority_queue<ll>pq,ll k)
 {
@@ -746,11 +493,6 @@ struct pair_hash {
         return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
     }
 };
-inline string toLowerCopy(const string &s) {
-    string t = s;
-    transform(t.begin(), t.end(), t.begin(), ::tolower);
-    return t;
-}
 // prefix sum template
 template <typename T, typename U>
 V<T> cumsum(const V<U> &a, int off = 1) {
