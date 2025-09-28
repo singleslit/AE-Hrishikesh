@@ -98,7 +98,6 @@ void setIO(string s)
 //string macros
 #define str(x) to_string(x)
 #define tolower(s) transform(s.begin(), s.end(), s.begin(), ::tolower)
-
 // ----------------------------------------------------------------------------------------
 //array macros
 #define cleantable(m,v) memset(m,v,sizeof(m));
@@ -108,10 +107,6 @@ void setIO(string s)
 // ----------------------------------------------------------------------------------------
 //bool isPower2 = (L & (L-1)) == 0;
 // ----------------------------------------------------------------------------------------
-//recursion macros
-#define rfun(name, ret_type, ...) \
-    std::function<ret_type(__VA_ARGS__)> name = [&](__VA_ARGS__) -> ret_type
-//
 #define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
 //
 const int dx4[4] = {1, 0, -1, 0};
