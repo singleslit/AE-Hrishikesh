@@ -1,15 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-//PBDS
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
- //defining template when all elements are distinct 
-template <class T> using ordered_set = tree<T, null_type,
-less<T>, rb_tree_tag,tree_order_statistics_node_update>;
- //defining template when duplicate elements are also used
-template <class T> using multi_ordered_set = tree<T, null_type,
-less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
 struct IoSetup {
     IoSetup() {
         cin.tie(nullptr);
@@ -52,12 +42,15 @@ void setIO(string s)
 #define rall(...) overload3(__VA_ARGS__,rall3,rall2,rall1)(__VA_ARGS__)
 #define len(x) (int)(x).size()
 #define sum(...) accumulate(all(__VA_ARGS__),0LL)
+#define uniq(vec) sort(all(vec)); vec.erase(unique(all(vec)),end(vec))
 #define rev(vec) reverse(vec.begin(), vec.end())
 #define elif else if
 #define pb push_back
 #define eb emplace_back
 #define lexi lexicographical_compare
 #define Test int t; cin >> t; while(t--)
+#define YES cout<<"Yes"<<endl
+#define NO cout<<"No"<<endl
 #define dbg(...) cout << #__VA_ARGS__ << " = ", _print(__VA_ARGS__)
 #define sint(...) int __VA_ARGS__; in(__VA_ARGS__)
 #define sll(...) ll __VA_ARGS__; in(__VA_ARGS__)
@@ -72,8 +65,12 @@ void setIO(string s)
 #define s1vii(n,v) vii v(n + 1); rep(i, 1, n + 1) cin >> v[i];
 #define UNIQUE(x) \
   sort(all(x)), x.erase(unique(all(x)), x.end()), x.shrink_to_fit()
+// ----------------------------------------------------------------------------------------
 #define FLUSH cin.ignore(numeric_limits<streamsize>::max(), '\n') //Forget whatever is there in the current line and go to the next line. Use cin.ignore() for ignorning the very next character.
 #define avoidBlanks while (cin.peek() == '\n') cin.ignore()
+// ----------------------------------------------------------------------------------------
+//binarySearch macros
+// ----------------------------------------------------------------------------------------
 #define lb(v,target) lower_bound(all(v), target)
 #define rlb(v,target) lower_bound(rall(v), target)
 #define lbset(s,target) s.lower_bound(target)
@@ -82,6 +79,13 @@ void setIO(string s)
 #define ubidx(v,target) ub(v,target)-v.begin()
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
 #define ubset(s,target) s.upper_bound(target)
+//vector macros
+#define ins(v,idx, value) (v).insert((v).begin() + (idx), value)
+//for inserting an elem at an index in the vector
+#define voc(str) (std::vector<std::decay_t<decltype(str[0])>>((str).begin(), (str).end()))
+#define rotatel(v, k) rotate((v).begin(), (v).begin() + ((k) % (v).size()), (v).end())
+#define rotater(v, k) rotate((v).rbegin(), (v).rbegin() + ((k) % (v).size()), (v).rend())
+// ----------------------------------------------------------------------------------------
 //math macros
 #define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
 #define digitcount(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
@@ -89,6 +93,7 @@ void setIO(string s)
 //string macros
 #define str(x) to_string(x)
 #define tolower(s) transform(s.begin(), s.end(), s.begin(), ::tolower)
+
 // ----------------------------------------------------------------------------------------
 //array macros
 #define cleantable(m,v) memset(m,v,sizeof(m));
@@ -98,6 +103,12 @@ void setIO(string s)
 // ----------------------------------------------------------------------------------------
 //bool isPower2 = (L & (L-1)) == 0;
 // ----------------------------------------------------------------------------------------
+//recursion macros
+#define rfun(name, ret_type, ...) \
+    std::function<ret_type(__VA_ARGS__)> name = [&](__VA_ARGS__) -> ret_type
+//
+#define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
+//
 const int dx4[4] = {1, 0, -1, 0};
 const int dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
@@ -137,7 +148,6 @@ using usetii = unordered_set<int>;
 using usetll = unordered_set<ll>;
 using setii = set<int>;
 using setll = set<ll>;
-using setpll = set<pll>;
 using setstr = set<string>;
 using usetpll = unordered_set<pll>;
 using usetpii = unordered_set<pii>;
@@ -155,6 +165,7 @@ template<typename T>
 using maxpq = priority_queue<T>;
 template<typename T>
 using minpq = priority_queue<T, vector<T>, greater<T>>;
+template <class T> std::vector<T> sort_unique(std::vector<T> vec) { sort(vec.begin(), vec.end()), vec.erase(unique(vec.begin(), vec.end()), vec.end()); return vec; }
 //scan
 inline void scan() {}
 inline void scan(int &a) { std::cin >> a; }
@@ -343,46 +354,44 @@ void __print(const std::tuple<Args...>& t) {
     }, t);
     cout << ")";
 }
-// Language Optimize
-static constexpr ll MOD = 998244353;
-using mint = modint<MOD>;
-template <typename T>
-vector<T> operator+(const vector<T>& x, const vector<T>& y) {
-    vector<T> r = x;
-    r.insert(r.end(), y.begin(), y.end());
-    return r;
-}
 // ──────────────────────────────────────────────────────────────────────────
 // Bitwise functions
 // ──────────────────────────────────────────────────────────────────────────
 //for fenwick trees
 template <typename T>
 inline T lsb_mask(T x) { return x & -x; }
+
 // population count
 inline int popcnt(int x)        { return __builtin_popcount(x); }
 inline int popcnt(unsigned x)   { return __builtin_popcount(x); }
 inline int popcnt(ll x)         { return __builtin_popcountll(x); }
 inline int popcnt(ull x)        { return __builtin_popcountll(x); }
+
 // parity sign of popcount  (returns -1 if odd, +1 if even)
 inline int popcnt_sgn(int x)      { return (__builtin_parity(unsigned(x)) & 1 ? -1 : 1); }
 inline int popcnt_sgn(unsigned x) { return (__builtin_parity(x) & 1 ? -1 : 1); }
 inline int popcnt_sgn(ll x)       { return (__builtin_parityll(x) & 1 ? -1 : 1); }
 inline int popcnt_sgn(ull x)      { return (__builtin_parityll(x) & 1 ? -1 : 1); }
+
 // index of most significant bit (0-indexed), -1 if x == 0
 inline int topbit(int x)        { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
 inline int topbit(unsigned x)   { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
 inline int topbit(ll x)         { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
 inline int topbit(ull x)        { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+
 // index of least significant bit (0-indexed), -1 if x == 0
 inline int lowbit(int x)        { return (x == 0 ? -1 : __builtin_ctz(x)); }
 inline int lowbit(unsigned x)   { return (x == 0 ? -1 : __builtin_ctz(x)); }
 inline int lowbit(ll x)         { return (x == 0 ? -1 : __builtin_ctzll(x)); }
 inline int lowbit(ull x)        { return (x == 0 ? -1 : __builtin_ctzll(x)); }
+
 // kth bit helpers
 template <typename T>
 inline T kth_bit(int k) { return T(1) << k; }
+
 template <typename T>
 inline bool has_kth_bit(T x, int k) { return (x >> k) & 1; }
+
 long long nextPow2(long long x) {
     if (x <= 0) return 1;
     return 1LL << (topbit(x) + 1);  // always the next power of 2
@@ -390,58 +399,480 @@ long long nextPow2(long long x) {
 // ──────────────────────────────────────────────────────────────────────────
 // Graph Algorithms
 // ──────────────────────────────────────────────────────────────────────────
-// DSU Algorithm
-struct DSU
-{
-  vll parent, size;
-  ll component_count;
-  ll max_comp_size;
-  
-  DSU(ll n)
-  {
-    parent.resize(n);
-    size.assign(n, 1);
-    rep(i,n) parent[i] = i;
-    component_count=n;
-    max_comp_size=1;
-  }
-  ll leader(ll x)
-  {
-    if (parent[x] == x) return x;
-    return parent[x] = leader(parent[x]);
-  }
-  bool merge(ll x, ll y)
-  {
-    x = leader(x);
-    y = leader(y);
-    if (x == y) return false;
-    if (size[x] < size[y]) swap(x, y);
-    parent[y] = x;
-    size[x] += size[y];
-    max_comp_size=max(max_comp_size,size[x]);
-    component_count--;
-    return true;
-  }
-  bool same(ll x, ll y)
-  {
-    return (leader(x) == leader(y));
-  }
-  ll setsz(ll x)
-  {
-    return size[leader(x)];
-  }
+//Quick Graph Builder:
+vvll read_undirected_graph(ll n, ll m, ll base=1){
+    vvll adj(n);
+    for(ll i=0,u,v; i<m; ++i){
+        in(u,v);
+        u-=base,v-=base;
+        adj[u].pb(v),adj[v].pb(u);
+    }
+    return adj;
+}
+
+vvll read_directed_graph(ll n, ll m, ll base=1){
+    vvll adj(n);
+    for(ll i=0,u,v; i<m; ++i){
+        in(u,v);
+        u-=base,v-=base;
+        adj[u].pb(v);
+    }
+    return adj;
+}
+
+template <typename T>
+V<V<T>> readGrid(int H, int W, bool withSpaces = false) {
+    V<V<T>> grid(H, V<T>(W));
+    for (int i = 0; i < H; i++) {
+        if (is_same<T, char>::value && !withSpaces) {
+            string row; cin >> row;
+            for (int j = 0; j < W; j++) grid[i][j] = row[j];
+        } else {
+            for (int j = 0; j < W; j++) cin >> grid[i][j];
+        }
+    }
+    return grid;
+}
+
+//shortest path chooser
+static constexpr ll INF = (ll)1e18;
+static constexpr ll NINF = -(ll)1e18;
+static constexpr int INVALID = -1;
+
+template<typename T, T INFV = numeric_limits<T>::max()/2, int INV = INVALID>
+struct shortest_path {
+    int V, E;
+    bool single_positive_weight;
+    T wmin, wmax;
+
+    vpii tos;
+    vii head;
+    vector<tuple<int,int,T>> edges;
+
+    vll dist;
+    vii prev;
+
+    shortest_path(int _V = 0)
+        : V(_V), E(0), single_positive_weight(true), wmin(0), wmax(0) {}
+
+    void add_edge(int u, int v, T w) {
+        assert(u >= 0 && u < V && v >= 0 && v < V);
+        edges.pb({u, v, w});
+        ++E;
+        if (w > 0 && wmax > 0 && wmax != w) single_positive_weight = false;
+        chmin(wmin, w);
+        chmax(wmax, w);
+    }
+    void add_bi_edge(int u, int v, T w) { add_edge(u,v,w); add_edge(v,u,w); }
+
+    void build_() {
+        if (len(tos)==E && len(head)==V+1) return;
+        tos.assign(E, {});
+        head.assign(V+1,0);
+        each(e, edges) ++head[get<0>(e)+1];
+        rep(i,V) head[i+1] += head[i];
+        auto cur = head;
+        each(e, edges) {
+            int u,v; T w; tie(u,v,w)=e;
+            tos[cur[u]++] = {v,(int)w};
+        }
+    }
+
+    template<class Heap = priority_queue<pair<T,int>, vector<pair<T,int>>, greater<>>> 
+    void dijkstra(int s, int t = INV) {
+        build_();
+        dist.assign(V, INFV); prev.assign(V, INV);
+        dist[s]=0;
+        Heap pq; pq.emplace(0,s);
+        while(!pq.empty()){
+            auto [d,u]=pq.top(); pq.pop();
+            if(u==t) return;
+            if(dist[u]<d) continue;
+            rep(e,head[u],head[u+1]){
+                auto [v,w]=tos[e]; T nd=d+w;
+                if(dist[v]>nd){ dist[v]=nd; prev[v]=u; pq.emplace(nd,v); }
+            }
+        }
+    }
+
+    void solve(int s, int t = INV) {
+        if(wmin>=0) {
+            if(single_positive_weight) zero_one_bfs(s,t);
+            else if(wmax<=10) dial(s,t);
+            else if((ll)V*V < (E<<4)) dijkstra_vquad(s,t);
+            else dijkstra(s,t);
+        } else bellman_ford(s,V);
+    }
+
+    vector<int> retrieve_path(int g) const {
+        if(dist[g]==INFV) return {};
+        vector<int> p;
+        for(int u=g; u!=INV; u=prev[u]) p.pb(u);
+        reverse(all(p));
+        return p;
+    }
+
+    void dijkstra_vquad(int s, int t = INV) {
+        build_();
+        dist.assign(V, INFV); prev.assign(V, INV);
+        dist[s]=0;
+        vbl used(V,false);
+        while (true) {
+            int u = INV; T best = INFV;
+            rep(i,V) if(!used[i] && dist[i]<best){ u=i; best=dist[i]; }
+            if(u==INV || u==t) break;
+            used[u]=true;
+            rep(e,head[u],head[u+1]){
+                auto [v,w]=tos[e];
+                if(dist[v]>dist[u]+w){ dist[v]=dist[u]+w; prev[v]=u; }
+            }
+        }
+    }
+
+    bool bellman_ford(int s, int nb) {
+        build_();
+        dist.assign(V, INFV); prev.assign(V, INV);
+        dist[s]=0;
+        rep(loop,nb) {
+            bool upd=false;
+            rep(u,V) if(dist[u]!=INFV) rep(e,head[u],head[u+1]){
+                auto [v,w]=tos[e]; T nd=dist[u]+w;
+                if(dist[v]>nd){ dist[v]=nd; prev[v]=u; upd=true; }
+            }
+            if(!upd) return true;
+        }
+        return false;
+    }
+
+    void spfa(int s) {
+        build_();
+        dist.assign(V, INFV); prev.assign(V, INV);
+        dist[s]=0;
+        deque<int> q; vbl inq(V,false);
+        q.pb(s); inq[s]=true;
+        while(!q.empty()){
+            int u=q.front(); q.pop_front(); inq[u]=false;
+            rep(e,head[u],head[u+1]){
+                auto [v,w]=tos[e]; T nd=dist[u]+w;
+                if(dist[v]>nd){ dist[v]=nd; prev[v]=u;
+                    if(!inq[v]){
+                        if(!q.empty() && nd<dist[q.front()]) q.push_front(v);
+                        else q.pb(v);
+                        inq[v]=true;
+                    }
+                }
+            }
+        }
+    }
+
+    void zero_one_bfs(int s, int t = INV) {
+        build_();
+        dist.assign(V, INFV); prev.assign(V, INV);
+        dist[s]=0;
+        vector<int> q(4*V);
+        int l=2*V, r=2*V;
+        q[r++]=s;
+        while(l<r){
+            int u=q[l++]; if(u==t) return;
+            rep(e,head[u],head[u+1]){
+                auto [v,w]=tos[e]; T nd=dist[u]+w;
+                if(dist[v]>nd){ dist[v]=nd; prev[v]=u;
+                    if(w) q[r++]=v; else q[--l]=v;
+                }
+            }
+        }
+    }
+
+    void dial(int s, int t = INV) {
+        build_();
+        dist.assign(V, INFV); prev.assign(V, INV);
+        dist[s]=0;
+        vector<vector<pair<int,T>>> buck(wmax+1);
+        buck[0].eb(s,0);
+        int inq_cnt=1;
+        for(int cur=0; inq_cnt; ++cur){
+            if(cur>=(int)buck.size()) cur=0;
+            while(!buck[cur].empty()){
+                auto [u,du]=buck[cur].back(); buck[cur].pop_back(); --inq_cnt;
+                if(u==t) return;
+                if(dist[u]<du) continue;
+                rep(e,head[u],head[u+1]){
+                    auto [v,w]=tos[e]; T nd=du+w;
+                    if(dist[v]>nd){ dist[v]=nd; prev[v]=u;
+                        int idx=(cur+w)%(wmax+1);
+                        buck[idx].eb(v,nd); ++inq_cnt;
+                    }
+                }
+            }
+        }
+    }
 };
+// Tarjans Algorithm for SCC
+struct SCC
+{
+    ll n,timer=0,compcnt=0;
+    vvll g;
+    vll disc,low,comp;
+    stkll stk;
+    vbl instack;
+    
+    SCC(ll n) : n(n), g(n), disc(n,-1), low(n), comp(n,-1), instack(n,false){}
+    
+    void add_edge(ll u,ll v)
+    {
+        g[u].pb(v);
+    }
+    
+    void dfs(ll u)
+    {
+        disc[u] = low[u] = ++timer;
+        stk.push(u);
+        instack[u]=true;
+        
+        each(v,g[u])
+        {
+            if (disc[v]==-1)
+            {
+                dfs(v);
+                chmin(low[u],low[v]);
+            }
+            elif (instack[v])
+            {
+                chmin(low[u],disc[v]);
+            }
+        }
+        
+        if (low[u]==disc[u])
+        {
+            while(true)
+            {
+                ll v = stk.top();stk.pop();
+                instack[v] = false;
+                comp[v] = compcnt;
+                if (v==u) break;
+            }
+            compcnt++;
+        }
+    }
+    
+    void run()
+    {
+        rep(i,0,n)
+        {
+            if (disc[i]==-1) dfs(i);
+        }
+    }
+};
+// DSU Algorithm
+  struct DSU {
+    vector<ll> parent, size;
+    vector<ll> diff_weight;   // weight[x] - weight[parent[x]]
+    ll component_count;
+    ll max_comp_size;
+
+    DSU(ll n)
+    {
+        parent.resize(n);
+        size.assign(n, 1);
+        diff_weight.assign(n, 0);  // initialize all weights to 0
+
+        rep(i,n) parent[i] = i;
+
+        component_count = n;
+        max_comp_size = 1;
+    }
+
+    // path compression + accumulate weights
+    ll leader(ll x)
+    {
+        if (parent[x] == x) return x;
+        ll p = leader(parent[x]);
+        diff_weight[x] += diff_weight[parent[x]];
+        return parent[x] = p;
+    }
+
+    // weight(x) = value[x] - value[root(x)]
+    ll weight(ll x)
+    {
+        leader(x);
+        return diff_weight[x];
+    }
+
+    // merge with constraint: value[y] - value[x] = w
+    bool merge(ll x, ll y, ll w)
+    {
+        ll rx = leader(x);
+        ll ry = leader(y);
+
+        ll wx = weight(x); // weight from x to rx
+        ll wy = weight(y); // weight from y to ry
+
+        if (rx == ry) return false;
+
+        // Solve: value[y] - value[x] = w
+        // → (wy + diff_weight[ry-root]) - (wx + diff_weight[rx-root]) = w
+        // Since roots have diff_weight = 0:
+        ll diff = w + wx - wy;
+
+        // union by size
+        if (size[rx] < size[ry]) {
+            swap(rx, ry);
+            diff = -diff;
+        }
+
+        parent[ry] = rx;
+        diff_weight[ry] = diff;    // weight[ry] = value[ry] - value[rx]
+        size[rx] += size[ry];
+
+        component_count--;
+        max_comp_size = max(max_comp_size, size[rx]);
+        return true;
+    }
+
+    // same component?
+    bool same(ll x, ll y)
+    {
+        return leader(x) == leader(y);
+    }
+
+    // difference value[y] - value[x]
+    ll diff(ll x, ll y)
+    {
+        return weight(y) - weight(x);
+    }
+
+    ll setsz(ll x)
+    {
+        return size[leader(x)];
+    }
+};
+
 // ──────────────────────────────────────────────────────────────────────────
 // Coding Shortcuts
 // ──────────────────────────────────────────────────────────────────────────
+//redefined find template to give -1 if key not found.
+template<typename Container, typename Key>
+inline int find_idx(const Container &c, const Key &key) {
+    auto it = std::find(std::begin(c), std::end(c), key);
+    if (it == std::end(c)) return -1;
+    return int(std::distance(std::begin(c), it));
+}
+//template to slice a vector
+template <typename T>
+std::vector<T> vslice(const std::vector<T>& v, int l, int r) {
+    if (l < 0) l += v.size();  // Handle negative indexing like Python
+    if (r < 0) r += v.size();
+    l = std::max(0, l);
+    r = std::min((int)v.size(), r);
+    if (l > r) l = r;  // Avoid invalid range
+    return std::vector<T>(v.begin() + l, v.begin() + r);
+}
 //pq top k elem
+vll pqtop(priority_queue<ll>pq,ll k)
+{
+  vll res;
+  while (k-- && !pq.empty()) {
+    res.pb(pq.top());
+    pq.pop();
+  }
+  return res;
+}
 // hashing for pair in unordered map
 struct pair_hash {
     size_t operator()(const pll& p) const {
         return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
     }
 };
+inline string toLowerCopy(const string &s) {
+    string t = s;
+    transform(t.begin(), t.end(), t.begin(), ::tolower);
+    return t;
+}
+// prefix sum template
+template <typename T, typename U>
+V<T> cumsum(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1);
+    rep(i, n) b[i + 1] = b[i] + a[i];
+    if (off == 0) b.erase(b.begin());
+    return b;
+}
+
+template <typename T, typename U>
+V<T> cummax(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1, numeric_limits<T>::lowest());
+    rep(i, n) b[i + 1] = max(b[i], T(a[i]));
+    if (off == 0) b.erase(b.begin());
+    return b;
+}
+
+template <typename T, typename U>
+V<T> suffsum(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1, 0); // last element b[n] = 0
+    rrep(i, n) b[i] = b[i + 1] + T(a[i]);
+    if (off == 0) b.pop_back();
+    return b;
+}
+
+template <typename T, typename U>
+V<T> suffmax(const V<U> &a, int off = 1) {
+    int n = len(a);
+    V<T> b(n + 1, numeric_limits<T>::lowest()); // last element = lowest value
+    rrep(i, n) b[i] = max(T(a[i]), b[i + 1]);
+    if (off == 0) b.pop_back();
+    return b;
+}
+
+// vector concatanation -> concat(a,b,c) expands a.
+template <typename T, typename... Vectors>
+void concat(V<T> &first, const Vectors &...others) {
+  V<T> &res = first;
+  (res.insert(res.end(), others.begin(), others.end()), ...);
+}
+
+
+// ──────────────────────────────────────────────────────────────────────────
+// Bitwise BSTA
+// ──────────────────────────────────────────────────────────────────────────
+template <typename F>
+ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
+  if (check_ok) assert(check(ok));
+  while (abs(ok - ng) > 1) {
+    ll x = (ok + ng) / 2;
+    (check(x) ? ok : ng) = x;
+  }
+  return ok;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Math Algos
+// ──────────────────────────────────────────────────────────────────────────
+//floor div template
+template <typename T>
+T floor(T a, T b) {
+  return a / b - (a % b && (a ^ b) < 0);
+}
+//ceil div template
+template <typename T>
+T ceil(T x, T y) {
+  return floor(x + y - 1, y);
+}
+//balanced modulo or Euclidean modulo (out normal modulo)
+template <typename T>
+T bmod(T x, T y) {
+  return x - y * floor(x, y);
+}
+// gives a quotient reminder pair for a div
+template <typename T>
+pair<T, T> divmod(T x, T y) {
+  T q = floor(x, y);
+  return {q, x - q * y};
+}
+
 const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
+
 vll primes_upto(ll n) 
 {
     if (n < 2) return {};
@@ -481,7 +912,6 @@ vll primes_upto(ll n)
 
     return primes;
 }
-
 ll power(ll a, ll b) 
 {
     ll result = 1;
@@ -519,6 +949,9 @@ string to_base(ll a,ll b)
     reverse(all(s));
     return s;
 }
+// ──────────────────────────────────────────────────────────────────────────────
+// modint<998244353>
+// ──────────────────────────────────────────────────────────────────────────────
 template<ll M>
 struct modint {
     ll v;
@@ -578,8 +1011,14 @@ struct modint {
 
 static constexpr ll MOD = 998244353;
 using mint = modint<MOD>;
+template <typename T>
+vector<T> operator+(const vector<T>& x, const vector<T>& y) {
+    vector<T> r = x;
+    r.insert(r.end(), y.begin(), y.end());
+    return r;
+}
 
 int main() 
 {
-    
+   
 }
