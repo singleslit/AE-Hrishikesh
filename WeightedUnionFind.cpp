@@ -1,9 +1,9 @@
-struct DSU {
+struct wDSU {
     vll parent, rankv;
     vll diff_weight;   // weight[x] - weight[parent[x]]
     ll component_count;
 
-    DSU(ll n) {
+    wDSU(ll n) {
         parent.resize(n);
         rankv.assign(n, 0);          // rank initially 0
         diff_weight.assign(n, 0);    // diff zero
