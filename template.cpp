@@ -10,7 +10,6 @@ less<T>, rb_tree_tag,tree_order_statistics_node_update>;
  //defining template when duplicate elements are also used
 template <class T> using multi_ordered_set = tree<T, null_type,
 less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
-
 struct IoSetup {
     IoSetup() {
         cin.tie(nullptr);
@@ -73,12 +72,8 @@ void setIO(string s)
 #define s1vii(n,v) vii v(n + 1); rep(i, 1, n + 1) cin >> v[i];
 #define UNIQUE(x) \
   sort(all(x)), x.erase(unique(all(x)), x.end()), x.shrink_to_fit()
-// ----------------------------------------------------------------------------------------
 #define FLUSH cin.ignore(numeric_limits<streamsize>::max(), '\n') //Forget whatever is there in the current line and go to the next line. Use cin.ignore() for ignorning the very next character.
 #define avoidBlanks while (cin.peek() == '\n') cin.ignore()
-// ----------------------------------------------------------------------------------------
-//binarySearch macros
-// ----------------------------------------------------------------------------------------
 #define lb(v,target) lower_bound(all(v), target)
 #define rlb(v,target) lower_bound(rall(v), target)
 #define lbset(s,target) s.lower_bound(target)
@@ -87,10 +82,6 @@ void setIO(string s)
 #define ubidx(v,target) ub(v,target)-v.begin()
 #define rub(v,target) upper_bound(rall(v), target) //Equivalent to finding the largest element smaller than or equal to target
 #define ubset(s,target) s.upper_bound(target)
-//vector macros
-#define ins(v,idx, value) (v).insert((v).begin() + (idx), value)
-//for inserting an elem at an index in the vector
-// ----------------------------------------------------------------------------------------
 //math macros
 #define manhdist(x1,y1,x2,y2) abs(x1-x2)+abs(y1-y2)
 #define digitcount(n) ((n) == 0 ? 1 : (int)log10(abs(n)) + 1)
@@ -107,8 +98,6 @@ void setIO(string s)
 // ----------------------------------------------------------------------------------------
 //bool isPower2 = (L & (L-1)) == 0;
 // ----------------------------------------------------------------------------------------
-#define print_range(v, i, j) copy((v).begin() + (i), (v).begin() + (j), ostream_iterator<decltype((v)[0])>(cout, " "))
-//
 const int dx4[4] = {1, 0, -1, 0};
 const int dy4[4] = {0, 1, 0, -1};
 const int dx8[8] = {1, 1, 0, -1, -1, -1, 0, 1};
@@ -354,44 +343,46 @@ void __print(const std::tuple<Args...>& t) {
     }, t);
     cout << ")";
 }
+// Language Optimize
+static constexpr ll MOD = 998244353;
+using mint = modint<MOD>;
+template <typename T>
+vector<T> operator+(const vector<T>& x, const vector<T>& y) {
+    vector<T> r = x;
+    r.insert(r.end(), y.begin(), y.end());
+    return r;
+}
 // ──────────────────────────────────────────────────────────────────────────
 // Bitwise functions
 // ──────────────────────────────────────────────────────────────────────────
 //for fenwick trees
 template <typename T>
 inline T lsb_mask(T x) { return x & -x; }
-
 // population count
 inline int popcnt(int x)        { return __builtin_popcount(x); }
 inline int popcnt(unsigned x)   { return __builtin_popcount(x); }
 inline int popcnt(ll x)         { return __builtin_popcountll(x); }
 inline int popcnt(ull x)        { return __builtin_popcountll(x); }
-
 // parity sign of popcount  (returns -1 if odd, +1 if even)
 inline int popcnt_sgn(int x)      { return (__builtin_parity(unsigned(x)) & 1 ? -1 : 1); }
 inline int popcnt_sgn(unsigned x) { return (__builtin_parity(x) & 1 ? -1 : 1); }
 inline int popcnt_sgn(ll x)       { return (__builtin_parityll(x) & 1 ? -1 : 1); }
 inline int popcnt_sgn(ull x)      { return (__builtin_parityll(x) & 1 ? -1 : 1); }
-
 // index of most significant bit (0-indexed), -1 if x == 0
 inline int topbit(int x)        { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
 inline int topbit(unsigned x)   { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
 inline int topbit(ll x)         { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
 inline int topbit(ull x)        { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
-
 // index of least significant bit (0-indexed), -1 if x == 0
 inline int lowbit(int x)        { return (x == 0 ? -1 : __builtin_ctz(x)); }
 inline int lowbit(unsigned x)   { return (x == 0 ? -1 : __builtin_ctz(x)); }
 inline int lowbit(ll x)         { return (x == 0 ? -1 : __builtin_ctzll(x)); }
 inline int lowbit(ull x)        { return (x == 0 ? -1 : __builtin_ctzll(x)); }
-
 // kth bit helpers
 template <typename T>
 inline T kth_bit(int k) { return T(1) << k; }
-
 template <typename T>
 inline bool has_kth_bit(T x, int k) { return (x >> k) & 1; }
-
 long long nextPow2(long long x) {
     if (x <= 0) return 1;
     return 1LL << (topbit(x) + 1);  // always the next power of 2
@@ -399,41 +390,6 @@ long long nextPow2(long long x) {
 // ──────────────────────────────────────────────────────────────────────────
 // Graph Algorithms
 // ──────────────────────────────────────────────────────────────────────────
-//Quick Graph Builder:
-vvll read_undirected_graph(ll n, ll m, ll base=1){
-    vvll adj(n);
-    for(ll i=0,u,v; i<m; ++i){
-        in(u,v);
-        u-=base,v-=base;
-        adj[u].pb(v),adj[v].pb(u);
-    }
-    return adj;
-}
-
-vvll read_directed_graph(ll n, ll m, ll base=1){
-    vvll adj(n);
-    for(ll i=0,u,v; i<m; ++i){
-        in(u,v);
-        u-=base,v-=base;
-        adj[u].pb(v);
-    }
-    return adj;
-}
-
-template <typename T>
-V<V<T>> readGrid(int H, int W, bool withSpaces = false) {
-    V<V<T>> grid(H, V<T>(W));
-    for (int i = 0; i < H; i++) {
-        if (is_same<T, char>::value && !withSpaces) {
-            string row; cin >> row;
-            for (int j = 0; j < W; j++) grid[i][j] = row[j];
-        } else {
-            for (int j = 0; j < W; j++) cin >> grid[i][j];
-        }
-    }
-    return grid;
-}
-
 // DSU Algorithm
 struct DSU
 {
@@ -449,13 +405,11 @@ struct DSU
     component_count=n;
     max_comp_size=1;
   }
-
   ll leader(ll x)
   {
     if (parent[x] == x) return x;
     return parent[x] = leader(parent[x]);
   }
-
   bool merge(ll x, ll y)
   {
     x = leader(x);
@@ -468,122 +422,26 @@ struct DSU
     component_count--;
     return true;
   }
-
   bool same(ll x, ll y)
   {
     return (leader(x) == leader(y));
   }
-
   ll setsz(ll x)
   {
     return size[leader(x)];
   }
-  
 };
 // ──────────────────────────────────────────────────────────────────────────
 // Coding Shortcuts
 // ──────────────────────────────────────────────────────────────────────────
 //pq top k elem
-vll pqtop(priority_queue<ll>pq,ll k)
-{
-  vll res;
-  while (k-- && !pq.empty()) {
-    res.pb(pq.top());
-    pq.pop();
-  }
-  return res;
-}
 // hashing for pair in unordered map
 struct pair_hash {
     size_t operator()(const pll& p) const {
         return hash<ll>()(p.first) ^ (hash<ll>()(p.second) << 1);
     }
 };
-// prefix sum template
-template <typename T, typename U>
-V<T> cumsum(const V<U> &a, int off = 1) {
-    int n = len(a);
-    V<T> b(n + 1);
-    rep(i, n) b[i + 1] = b[i] + a[i];
-    if (off == 0) b.erase(b.begin());
-    return b;
-}
-
-template <typename T, typename U>
-V<T> cummax(const V<U> &a, int off = 1) {
-    int n = len(a);
-    V<T> b(n + 1, numeric_limits<T>::lowest());
-    rep(i, n) b[i + 1] = max(b[i], T(a[i]));
-    if (off == 0) b.erase(b.begin());
-    return b;
-}
-
-template <typename T, typename U>
-V<T> suffsum(const V<U> &a, int off = 1) {
-    int n = len(a);
-    V<T> b(n + 1, 0); // last element b[n] = 0
-    rrep(i, n) b[i] = b[i + 1] + T(a[i]);
-    if (off == 0) b.pop_back();
-    return b;
-}
-
-template <typename T, typename U>
-V<T> suffmax(const V<U> &a, int off = 1) {
-    int n = len(a);
-    V<T> b(n + 1, numeric_limits<T>::lowest()); // last element = lowest value
-    rrep(i, n) b[i] = max(T(a[i]), b[i + 1]);
-    if (off == 0) b.pop_back();
-    return b;
-}
-
-// vector concatanation -> concat(a,b,c) expands a.
-template <typename T, typename... Vectors>
-void concat(V<T> &first, const Vectors &...others) {
-  V<T> &res = first;
-  (res.insert(res.end(), others.begin(), others.end()), ...);
-}
-
-
-// ──────────────────────────────────────────────────────────────────────────
-// Bitwise BSTA
-// ──────────────────────────────────────────────────────────────────────────
-template <typename F>
-ll bsta(F check, ll ok, ll ng, bool check_ok = true) {
-  if (check_ok) assert(check(ok));
-  while (abs(ok - ng) > 1) {
-    ll x = (ok + ng) / 2;
-    (check(x) ? ok : ng) = x;
-  }
-  return ok;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-// Math Algos
-// ──────────────────────────────────────────────────────────────────────────
-//floor div template
-template <typename T>
-T floor(T a, T b) {
-  return a / b - (a % b && (a ^ b) < 0);
-}
-//ceil div template
-template <typename T>
-T ceil(T x, T y) {
-  return floor(x + y - 1, y);
-}
-//balanced modulo or Euclidean modulo (out normal modulo)
-template <typename T>
-T bmod(T x, T y) {
-  return x - y * floor(x, y);
-}
-// gives a quotient reminder pair for a div
-template <typename T>
-pair<T, T> divmod(T x, T y) {
-  T q = floor(x, y);
-  return {q, x - q * y};
-}
-
 const int residues[] = {1, 7, 11, 13, 17, 19, 23, 29};
-
 vll primes_upto(ll n) 
 {
     if (n < 2) return {};
@@ -623,6 +481,7 @@ vll primes_upto(ll n)
 
     return primes;
 }
+
 ll power(ll a, ll b) 
 {
     ll result = 1;
@@ -660,9 +519,6 @@ string to_base(ll a,ll b)
     reverse(all(s));
     return s;
 }
-// ──────────────────────────────────────────────────────────────────────────────
-// modint<998244353>
-// ──────────────────────────────────────────────────────────────────────────────
 template<ll M>
 struct modint {
     ll v;
